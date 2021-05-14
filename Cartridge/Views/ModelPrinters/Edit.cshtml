@@ -1,0 +1,79 @@
+﻿@model Cartridge.Models.ModelPrinter
+
+@{
+    ViewData["Title"] = "Змінити принтер";
+}
+
+<h1>Зробити зміни @Html.DisplayFor(modelItem => Model.Name)</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" method="POST" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label">Назва принтера(модель)</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Photo" class="control-label">Фото принтера</label>
+                <img src="@Url.Action("PrinterImage", "ModelPrinters", new { id = Model.Id })" style="width:300px;" />
+                
+                <label asp-for="Photo" class="control-label">Змінити фото</label>
+                <input type="file" id="files" name="files" class="btn" style="color:black" multiple />
+                <span asp-validation-for="Photo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Зберегти" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-outline-secondary">До списку принтерів</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script>
+        function previewImages() {
+            linebreak = document.createElement("br");
+            var preview = document.querySelector('#preview');
+            if (this.files) {
+                [].forEach.call(this.files, readAndPreview);
+            }
+            function readAndPreview(file) {
+                if (!/\.(jpe?g|png|gif)$/i.test(file.name)) {
+                    $('#files').val('');
+                    return alert(file.name + " is not an image");
+
+                } else if (file.size > 4194304) {
+                    $('#files').val('');
+
+                    return alert(file.name + "is larger than 4MB");
+
+                } else {
+                    var reader = new FileReader();
+                    reader.addEventListener("load", function () {
+                        var image = new Image();
+                        image.height = 100;
+                        image.title = file.name;
+                        image.src = this.result;
+                        preview.append(image.title);
+                        preview.appendChild(image);
+                    });
+                    reader.readAsDataURL(file);
+                }
+            }
+        }
+        $(document).on('change', 'input[type="file"][multiple]', function () {
+            var $this = $(this);
+            $this.clone().insertAfter($this);
+            $this.hide();
+
+        });
+
+        $(document).on('change', 'input[type="file"][multiple]', previewImages);
+
+</script>
+}

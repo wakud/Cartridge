@@ -1,0 +1,20 @@
+﻿@model Cartridge.Models.ModelPrinter
+
+@{
+    ViewData["Title"] = "Детально про принтер";
+}
+
+<h1>@Html.DisplayFor(model => model.Name)</h1>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-success">Змінити</a>
+    <a asp-action="Index" class="btn btn-outline-secondary">До списку принтерів</a>
+</div>
+<div>
+    <hr />
+    <dl class="row">
+        <dd class="col-sm-10">
+            <img src="@Url.Action("PrinterImage", "ModelPrinters", new { id = Model.Id })" style="width:500px;" />
+        </dd>
+    </dl>
+</div>

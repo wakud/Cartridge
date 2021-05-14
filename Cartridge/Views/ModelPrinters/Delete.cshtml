@@ -1,0 +1,18 @@
+﻿@model Cartridge.Models.ModelPrinter
+
+@{
+    ViewData["Title"] = "Видалення принтера";
+}
+
+<h1>Видалити @Html.DisplayFor(modelItem => Model.Name)</h1>
+
+<div>
+    <hr />
+    <img src="@Url.Action("PrinterImage", "ModelPrinters", new { id = Model.Id })" style="width:300px;" />
+    <hr />
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Видалити" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-outline-secondary">До списку принтерів</a>
+    </form>
+</div>

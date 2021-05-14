@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Cartridge.Models.ModelPrinter>
+
+@{
+    ViewData["Title"] = "Список принтерів";
+}
+
+<h1>Список принтерів</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-outline-primary">Добавити новий</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Фото принтера
+            </th>
+            <th>
+                Назва принтера (модель)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                <img src="@Url.Action("PrinterImage", "ModelPrinters", new { id = @item.Id })" style="width:100px;" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Змінити</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Детально</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
