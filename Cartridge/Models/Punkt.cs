@@ -10,8 +10,8 @@ namespace Cartridge.Models
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<ModelPrinter> Printers { get; set; }
-        public List<Cartridges> Cartridges { get; set; }
+        public ICollection<ModelPrinter> Printers { get; set; }
+        public ICollection<Cartridges> Cartridges { get; set; }
         public Punkt()
         {
             Printers = new List<ModelPrinter>();

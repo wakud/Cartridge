@@ -1,0 +1,30 @@
+﻿@model Cartridge.Models.ModelCartridge
+
+@{
+    ViewData["Title"] = "Детально";
+}
+
+<h1>Модель картриджу @Html.DisplayFor(model => model.Name)</h1>
+<hr />
+<img src="@Url.Action("CartridgeImage", "ModelCartridges", new { id = Model.Id })" style="width:500px;" />
+<div>
+    <dl class="row">
+        <dt class = "col-sm-4">
+            Опис (до яких принтерів підходить)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-4">
+            Чи це барабан
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Baraban)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-success">Змінити</a>
+    <a asp-action="Index" class="btn btn-outline-secondary">До списку принтерів</a>
+</div>
+

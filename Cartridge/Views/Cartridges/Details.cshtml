@@ -1,0 +1,32 @@
+﻿@model Cartridge.Models.Cartridges
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Детально про картридж</h1>
+
+<div>
+    <h4>Картридж з кодом @Html.DisplayFor(model => model.Code) введений в експлуатацію @Html.DisplayFor(model => model.DateInsert)</h4>
+    <wbr>
+    <img src="@Url.Action("CartridgeImage", "ModelCartridges", new { id = Model.GetModelCartridge.Id })" style="width:300px;" />
+    <hr />
+    <h5>Зараз знаходиться <b>@Html.DisplayFor(model => model.GetPunkt.Name)</b></h5>
+    <hr />
+    <h5>Підходить до принтерів <b>@Html.DisplayFor(model => model.GetModelCartridge.Description)</b></h5>
+    <hr />
+    <h5>
+        @if (Model.Status == true)
+        {
+            <b>Заправлений</b>
+        }
+        else
+        {
+            <b>Пустий</b>
+        }
+    </h5>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-success">Змінити</a>
+    <a asp-action="Index" class="btn btn-outline-secondary">До списку картриджів</a>
+</div>

@@ -1,0 +1,27 @@
+﻿@model Cartridge.Models.ModelCartridge
+
+@{
+    ViewData["Title"] = "Видалення моделі";
+}
+
+<h1>Видалити модель картриджу @Html.DisplayFor(model => model.Name)?</h1>
+<div>
+    <hr />
+    <img src="@Url.Action("CartridgeImage", "ModelCartridges", new { id = Model.Id })" style="width:300px;" />
+    <dl class="row">
+        <dt class = "col-sm-4">
+            Опис (до яких принтерів підходить)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Видалити" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-outline-secondary">До списку картриджів</a>
+    </form>
+</div>
+
+

@@ -13,8 +13,8 @@ namespace Cartridge.Models
         public string Photo { get; set; }   //фото моделі
         public string Description { get; set; }     //опис
         public bool Baraban { get; set; }       //чи це є барабан
-        public List<ModelPrinter> Printers { get; set; }        //список принтерів до яких підходить картридж
-        public List<Cartridges> Cartridges { get; set; }        //список картриджів які відносаться до цієї моделі
+        public ICollection<ModelPrinter> Printers { get; set; }        //список принтерів до яких підходить картридж
+        public ICollection<Cartridges> Cartridges { get; set; }        //список картриджів які відносаться до цієї моделі
         public ModelCartridge()
         {
             Printers = new List<ModelPrinter>();

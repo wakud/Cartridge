@@ -1,31 +1,40 @@
-﻿@model Cartridge.Models.ModelPrinter
+﻿@model Cartridge.Models.ModelCartridge
 
 @{
-    ViewData["Title"] = "Добавлення принтера";
+    ViewData["Title"] = "Добавити картридж";
 }
 
-<h1>Добавити принтер</h1>
-
+<h1>Добавити модель картриджу</h1>
 <hr />
-@using (Html.BeginForm("Create", "ModelPrinters", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Create", "ModelCartridges", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="row">
         <div class="col-md-4">
             <form asp-action="Create">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="Name" class="control-label">Назва принтера(модель)</label>
+                    <label asp-for="Name" class="control-label">Назва картриджу</label>
                     <input asp-for="Name" class="form-control" required />
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Photo" class="control-label">Фото принтера</label>
-                    <input type="file" id="files" name="files" class="btn" style="color:black" multiple />
+                    <label asp-for="Photo" class="control-label">Фото картриджа</label>
+                    <input type="file" id="files" name="files" class="btn" style="color:black" />
                     <span asp-validation-for="Photo" class="text-danger"></span>
                 </div>
                 <div class="form-group">
+                    <label asp-for="Description" class="control-label">Опис</label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="Baraban" /> @Html.DisplayNameFor(model => model.Baraban)
+                    </label>
+                </div>
+                <div class="form-group">
                     <input type="submit" value="Добавити" class="btn btn-outline-success" />
-                    <a asp-action="Index" class="btn btn-outline-secondary">До списку принтерів</a>
+                    <a asp-action="Index" class="btn btn-outline-secondary">До списку картриджів</a>
                 </div>
             </form>
         </div>
@@ -34,7 +43,8 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
+<script>
+
         function previewImages() {
             linebreak = document.createElement("br");
             var preview = document.querySelector('#preview');
@@ -74,5 +84,22 @@
 
         $(document).on('change', 'input[type="file"][multiple]', previewImages);
 
-    </script>
+        $(document).ready(() => {
+            $("#Code").blur(async () => {
+                const code = $("#Code").val();
+                const url = '@Url.Action("CheckCartrige", "Cartridges")' + `?code=${code}`;
+                const response = await fetch(url);
+                if (response.status === 200) {
+                    if (!$("#Code").hasClass("is-invalid")) {
+                        $("#Code").addClass("is-invalid")
+                    }
+                } else {
+                    if ($("#Code").hasClass("is-invalid")) {
+                        $("#Code").removeClass("is-invalid")
+                    }
+                }
+            });
+        });
+
+</script>
 }

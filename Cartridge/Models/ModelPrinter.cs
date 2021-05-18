@@ -11,8 +11,8 @@ namespace Cartridge.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Photo { get; set; }
-        public List<Cartridges> GetCartridges { get; set; }     //список картриджів які підходять до цієї моделі
-        public List<Punkt> Punkts { get; set; }         //список де стоять такі моделі принтерів
+        public ICollection<Cartridges> GetCartridges { get; set; }     //список картриджів які підходять до цієї моделі
+        public ICollection<Punkt> Punkts { get; set; }         //список де стоять такі моделі принтерів
         public ModelPrinter()
         {
             Punkts = new List<Punkt>();

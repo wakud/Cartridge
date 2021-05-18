@@ -12,7 +12,7 @@ namespace Cartridge.Models
         public int Id { get; set; }
         public DateTime DateInput { get; set; }
         public DateTime DateOut { get; set; }
-        public List<Cartridges> GetCartridges { get; set; }
+        public ICollection<Cartridges> GetCartridges { get; set; }
         public Service()
         {
             GetCartridges = new List<Cartridges>();

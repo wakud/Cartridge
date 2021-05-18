@@ -1,0 +1,63 @@
+﻿@model Cartridge.Models.Punkt
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Змінити назву підрозділу</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group col-md-4">
+                <label asp-for="Name" class="control-label">Назва підрозділу</label>
+                <input asp-for="Name" class="form-control" required />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Вибір принтера
+                        </th>
+                        <th>
+                            Фото принтера
+                        </th>
+                        <th>
+                            Назва принтера (модель)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (ModelPrinter c in ViewBag.ModelPrinter)
+                    {
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="selectedPrint" value="@c.Id" @(Model.Printers.Contains(c) ? "checked" : "") />
+                            </td>
+                            <td>
+                                <img src="@Url.Action("PrinterImage", "ModelPrinters", new { id = c.Id })" style="width:100px;" />
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => @c.Name)
+                            </td>
+                            
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="form-group">
+                <input type="submit" value="Зберегти" class="btn btn-outline-primary" />
+                <a asp-action="Index" class="btn btn-outline-info">Повернутися до списку</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

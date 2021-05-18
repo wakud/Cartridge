@@ -1,0 +1,53 @@
+﻿@model Cartridge.Models.Cartridges
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Добавлення картриджу.</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Code" class="control-label">Код картриджу (штрих-код)</label>
+                <input asp-for="Code" class="form-control" />
+                <span asp-validation-for="Code" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateInsert" class="control-label">Дата введення в експлуатацію</label>
+                <input asp-for="DateInsert" class="form-control" />
+                <span asp-validation-for="DateInsert" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateDel" class="control-label">Дата списання</label>
+                <input asp-for="DateDel" class="form-control" />
+                <span asp-validation-for="DateDel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PunktId" class="control-label">Де картридж</label>
+                <select asp-for="PunktId" class="form-control" asp-items="ViewBag.PunktId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="ModelCartridgeId" class="control-label">Модель картриджу</label>
+                <select asp-for="ModelCartridgeId" class="form-control" asp-items="ViewBag.ModelCartridgeId"></select>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Status" /> Заправлений?
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Добавити" class="btn btn-outline-success" />
+                <a asp-action="Index" class="btn btn-outline-secondary">До списку картриджів</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

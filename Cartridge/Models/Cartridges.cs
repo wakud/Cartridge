@@ -12,9 +12,14 @@ namespace Cartridge.Models
         public int Code { get; set; }   //штрих-код
         public DateTime DateInsert { get; set; }    //дата введення в експлуатацію
         public DateTime? DateDel { get; set; }      //дата виведення з експлуатації
+        public bool Status { get; set; }
 
         [ForeignKey("PunktId")]
         public int? PunktId { get; set; }
-        public virtual Punkt GetPunkt { get; set; } //де зараз картридж
+        public virtual Punkt GetPunkt { get; set; } //в якому підрозділі картридж
+
+        [ForeignKey("ModelCartridgeId")]
+        public int ModelCartridgeId { get; set; }
+        public virtual ModelCartridge GetModelCartridge { get; set; }   //модель картриджу
     }
 }

@@ -7,32 +7,32 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Cartridge.Data;
 using Cartridge.Models;
-using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace Cartridge.Controllers
 {
-    public class ModelPrintersController : Controller
+    public class ModelCartridgesController : Controller
     {
         private readonly MainContext _context;
-        private readonly IWebHostEnvironment appEnv;
+        private readonly IWebHostEnvironment webHost;
         public static IConfiguration Configuration;
 
-        public ModelPrintersController(MainContext context, IWebHostEnvironment appEnviroment)
+        public ModelCartridgesController(MainContext context, IWebHostEnvironment environment)
         {
             _context = context;
-            appEnv = appEnviroment;
+            webHost = environment;
         }
 
-        // GET: ModelPrinters
+        // GET: ModelCartridges
         public async Task<IActionResult> Index()
         {
-            return View(await _context.PrintersModel.ToListAsync());
+            return View(await _context.CartridgesModel.ToListAsync());
         }
 
-        // GET: ModelPrinters/Details/5
+        // GET: ModelCartridges/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -40,31 +40,30 @@ namespace Cartridge.Controllers
                 return NotFound();
             }
 
-            var modelPrinter = await _context.PrintersModel
+            var modelCartridge = await _context.CartridgesModel
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (modelPrinter == null)
+            if (modelCartridge == null)
             {
                 return NotFound();
             }
 
-            return View(modelPrinter);
+            return View(modelCartridge);
         }
 
-        // GET: ModelPrinters/Create
+        // GET: ModelCartridges/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: ModelPrinters/Create
+        // POST: ModelCartridges/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(string Name, IFormFile files)
+        public async Task<IActionResult> Create(string name, string description, bool baraban, IFormFile files)
         {
-            string filePath = "\\Images\\Printer\\";
-            string fullPath = appEnv.WebRootPath + filePath;
-
-            if (Name != null)
+            string filePath = "\\Images\\Cartridge\\";
+            string fullPath = webHost.WebRootPath + filePath;
+            if (name != null)
             {
                 if (files != null)
                 {
@@ -75,17 +74,19 @@ namespace Cartridge.Controllers
                 }
                 else
                 {
-                    fullPath = appEnv.WebRootPath + "\\Images\\images.png";
+                    fullPath = webHost.WebRootPath + "\\Images\\images.png";
                 }
 
                 if (ModelState.IsValid)
                 {
-                    ModelPrinter printer = new()
+                    ModelCartridge modelCartridge = new()
                     {
-                        Name = Name,
-                        Photo = fullPath
+                         Name = name,
+                         Description = description,
+                         Baraban = baraban,
+                         Photo = fullPath
                     };
-                    _context.Add(printer);
+                    _context.Add(modelCartridge);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
@@ -93,7 +94,7 @@ namespace Cartridge.Controllers
             return View();
         }
 
-        // GET: ModelPrinters/Edit/5
+        // GET: ModelCartridges/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -101,23 +102,21 @@ namespace Cartridge.Controllers
                 return NotFound();
             }
 
-            ModelPrinter modelPrinter = await _context.PrintersModel.FindAsync(id);
-            if (modelPrinter == null)
+            var modelCartridge = await _context.CartridgesModel.FindAsync(id);
+            if (modelCartridge == null)
             {
                 return NotFound();
             }
-            return View(modelPrinter);
+            return View(modelCartridge);
         }
 
-        // POST: ModelPrinters/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: ModelCartridges/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, IFormFile files, string Name)
+        public async Task<IActionResult> Edit(int id, string name, string description, bool baraban, IFormFile files)
         {
-            ModelPrinter modelPrinter = await _context.PrintersModel.FindAsync(id);
-            if (id != modelPrinter.Id)
+            ModelCartridge modelCartridge = await _context.CartridgesModel.FindAsync(id);
+            if (id != modelCartridge.Id)
             {
                 return NotFound();
             }
@@ -127,28 +126,30 @@ namespace Cartridge.Controllers
                 try
                 {
                     string filePath = "\\Images\\Printer\\";
-
                     if (files != null)
                     {
-                        string fullPath = appEnv.WebRootPath + filePath + files.FileName;
+                        string fullPath = webHost.WebRootPath + filePath + files.FileName;
                         //зберігаємо файл
                         using (var fileStream = new FileStream(fullPath, FileMode.Create))
                             files.CopyTo(fileStream);
 
-                        modelPrinter.Name = Name;
-                        modelPrinter.Photo = fullPath;
+                        modelCartridge.Name = name;
+                        modelCartridge.Description = description;
+                        modelCartridge.Baraban = baraban;
+                        modelCartridge.Photo = fullPath;
                     }
                     else if (files == null)
                     {
-                        modelPrinter.Name = Name;
+                        modelCartridge.Name = name;
+                        modelCartridge.Description = description;
+                        modelCartridge.Baraban = baraban;
                     }
-
-                    _context.Update(modelPrinter);
+                    _context.Update(modelCartridge);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ModelPrinterExists(modelPrinter.Id))
+                    if (!ModelCartridgeExists(modelCartridge.Id))
                     {
                         return NotFound();
                     }
@@ -159,10 +160,10 @@ namespace Cartridge.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(modelPrinter);
+            return View(modelCartridge);
         }
 
-        // GET: ModelPrinters/Delete/5
+        // GET: ModelCartridges/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -170,47 +171,47 @@ namespace Cartridge.Controllers
                 return NotFound();
             }
 
-            var modelPrinter = await _context.PrintersModel
+            var modelCartridge = await _context.CartridgesModel
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (modelPrinter == null)
+            if (modelCartridge == null)
             {
                 return NotFound();
             }
 
-            return View(modelPrinter);
+            return View(modelCartridge);
         }
 
-        // POST: ModelPrinters/Delete/5
+        // POST: ModelCartridges/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var modelPrinter = await _context.PrintersModel.FindAsync(id);
-            _context.PrintersModel.Remove(modelPrinter);
+            var modelCartridge = await _context.CartridgesModel.FindAsync(id);
+            _context.CartridgesModel.Remove(modelCartridge);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ModelPrinterExists(int id)
+        private bool ModelCartridgeExists(int id)
         {
-            return _context.PrintersModel.Any(e => e.Id == id);
+            return _context.CartridgesModel.Any(e => e.Id == id);
         }
 
-        public async Task<IActionResult> PrinterImage(int Id)
+        public async Task<IActionResult> CartridgeImage(int Id)
         {
-            ModelPrinter printer = _context.PrintersModel.FirstOrDefault(p => p.Id == Id);
-            if (printer == null)
+            ModelCartridge cartridges = _context.CartridgesModel.FirstOrDefault(p => p.Id == Id);
+            if (cartridges == null)
             {
-                return Content("Принтер не знайдено");
+                return Content("Картридж не знайдено");
             }
 
             var memory = new MemoryStream();
-            using (var stream = new FileStream(printer.Photo, FileMode.Open))
+            using (var stream = new FileStream(cartridges.Photo, FileMode.Open))
             {
                 await stream.CopyToAsync(memory);
             }
             memory.Position = 0;
-            return File(memory, Utils.ImagePath.GetContentType(printer.Photo), Path.GetFileName(printer.Photo));
+            return File(memory, Utils.ImagePath.GetContentType(cartridges.Photo), Path.GetFileName(cartridges.Photo));
         }
     }
 }

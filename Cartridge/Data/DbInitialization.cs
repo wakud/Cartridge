@@ -28,7 +28,7 @@ namespace Cartridge.Data
                 //Punkt tr43 = new Punkt { Name = "Шумський ЦОК" };
                 //Punkt tr44 = new Punkt { Name = "Підгаєцький ЦОК" };
                 Punkt sklad = new Punkt { Name = "Склад" };
-                Punkt zapravka = new Punkt { Name = "Хардсофт" };
+                Punkt zapravka = new Punkt { Name = "Хардсофт (обслуговування)" };
                 context.AddRange(tr27, tr28, tr29, sklad, zapravka);
                 context.SaveChanges();
             }
