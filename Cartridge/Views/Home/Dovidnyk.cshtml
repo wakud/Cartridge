@@ -1,34 +1,55 @@
 ﻿@{
     ViewData["Title"] = "Налаштування довідників";
 }
-<div class="container">
-    <div class="d-flex justify-content-center">
-        <div class="shadow p-3 mb-5 bg-white rounded">
-            <button id="1" type="button" onclick="location.href = '@Url.Action("Index", "Punkts")'">
-                <img src="~/Images/Довідники/giphy.gif" style="vertical-align: middle">
+
+<div class="col-sm-5">
+    <div class="shadow p-3 mb-5 bg-white rounded">
+        <button type="button" class="btn btn-outline-success btn-lg btn-block"
+                onclick="location.href = '@Url.Action("Index", "Punkts")'">
+            <i class="fas fa-cogs pr-2" aria-hidden="true"></i>Підрозділи
+        </button>
+        <button type="button" class="btn btn-outline-info btn-lg btn-block"
+                onclick="location.href = '@Url.Action("Index", "ModelPrinters")'">
+            <i class="fas fa-cogs pr-2" aria-hidden="true"></i>Моделі Принтерів
+        </button>
+        <button type="button" class="btn btn-outline-dark btn-lg btn-block"
+                onclick="location.href = '@Url.Action("Index", "ModelCartridges")'">
+            <i class="fas fa-cogs pr-2" aria-hidden="true"></i>Моделі Картриджів
+        </button>
+        <button type="button" class="btn btn-outline-info btn-lg btn-block"
+                onclick="location.href = '@Url.Action("Index", "OperationTypes")'">
+            <i class="fas fa-cogs pr-2" aria-hidden="true"></i>Типи Операцій
+        </button>
+        <button type="button" class="btn btn-outline-info btn-lg btn-block"
+                onclick="location.href = '@Url.Action("Index", "Stans")'">
+            <i class="fas fa-cogs pr-2" aria-hidden="true"></i>Стани картриджів
+        </button>
+        <button type="button" class="btn btn-outline-secondary btn-lg btn-block"
+                onclick="location.href = '@Url.Action("Index", "Cartridges")'">
+            <i class="fas fa-cogs pr-2" aria-hidden="true"></i>Картриджі
+        </button>
+        @* <button id="1" type="button" onclick="location.href = '@Url.Action("Index", "Punkts")'"></button>
                 <p>Підрозділи</p>
-            </button>
+            </div>
+            <div class="shadow p-3 mb-5 bg-white rounded">
+                <button id="2" type="button" onclick="location.href = '@Url.Action("Index", "ModelPrinters")'">
+                    <img src="~/Images/Довідники/93qR.gif" style="vertical-align: middle">
+                    <p>Моделі Принтерів</p>
+                </button>
+            </div>
         </div>
-        <div class="shadow p-3 mb-5 bg-white rounded">
-            <button id="2" type="button" onclick="location.href = '@Url.Action("Index", "ModelPrinters")'">
-                <img src="~/Images/Довідники/93qR.gif" style="vertical-align: middle">
-                <p>Моделі Принтерів</p>
-            </button>
-        </div>
+        <div class="d-flex justify-content-center">
+            <div class="shadow p-3 mb-5 bg-white rounded">
+                <button id="3" type="button" onclick="location.href = '@Url.Action("Index", "ModelCartridges")'">
+                    <img src="~/Images/Довідники/hp-color.png" style="vertical-align: middle">
+                    <p>Моделі Картриджів</p>
+                </button>
+            </div>
+            <div class="shadow p-3 mb-5 bg-white rounded">
+                <button id="4" type="button" onclick="location.href = '@Url.Action("Index", "Cartridges")'">
+                    <img src="~/Images/Довідники/page_refill-300x300.png" style="vertical-align: middle" />
+                    <p>Картриджі</p>
+                </button>*@
     </div>
-    <div class="d-flex justify-content-center">
-        <div class="shadow p-3 mb-5 bg-white rounded">
-            <button id="3" type="button" onclick="location.href = '@Url.Action("Index", "ModelCartridges")'">
-                <img src="~/Images/Довідники/hp-color.png" style="vertical-align: middle">
-                <p>Моделі Картриджів</p>
-            </button>
-        </div>
-        <div class="shadow p-3 mb-5 bg-white rounded">
-            <button id="4" type="button" onclick="location.href = '@Url.Action("Index", "Cartridges")'">
-                <img src="~/Images/Довідники/page_refill-300x300.png" style="vertical-align: middle" />
-                <p>Картриджі</p>
-            </button>
-        </div>
     </div>
-</div>
 

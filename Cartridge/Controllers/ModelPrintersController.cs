@@ -29,7 +29,7 @@ namespace Cartridge.Controllers
         // GET: ModelPrinters
         public async Task<IActionResult> Index()
         {
-            return View(await _context.PrintersModel.ToListAsync());
+            return View(await _context.PrintersModels.ToListAsync());
         }
 
         // GET: ModelPrinters/Details/5
@@ -40,7 +40,7 @@ namespace Cartridge.Controllers
                 return NotFound();
             }
 
-            var modelPrinter = await _context.PrintersModel
+            var modelPrinter = await _context.PrintersModels
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (modelPrinter == null)
             {
@@ -101,7 +101,7 @@ namespace Cartridge.Controllers
                 return NotFound();
             }
 
-            ModelPrinter modelPrinter = await _context.PrintersModel.FindAsync(id);
+            ModelPrinter modelPrinter = await _context.PrintersModels.FindAsync(id);
             if (modelPrinter == null)
             {
                 return NotFound();
@@ -116,7 +116,7 @@ namespace Cartridge.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, IFormFile files, string Name)
         {
-            ModelPrinter modelPrinter = await _context.PrintersModel.FindAsync(id);
+            ModelPrinter modelPrinter = await _context.PrintersModels.FindAsync(id);
             if (id != modelPrinter.Id)
             {
                 return NotFound();
@@ -170,7 +170,7 @@ namespace Cartridge.Controllers
                 return NotFound();
             }
 
-            var modelPrinter = await _context.PrintersModel
+            var modelPrinter = await _context.PrintersModels
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (modelPrinter == null)
             {
@@ -185,20 +185,20 @@ namespace Cartridge.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var modelPrinter = await _context.PrintersModel.FindAsync(id);
-            _context.PrintersModel.Remove(modelPrinter);
+            var modelPrinter = await _context.PrintersModels.FindAsync(id);
+            _context.PrintersModels.Remove(modelPrinter);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ModelPrinterExists(int id)
         {
-            return _context.PrintersModel.Any(e => e.Id == id);
+            return _context.PrintersModels.Any(e => e.Id == id);
         }
 
         public async Task<IActionResult> PrinterImage(int Id)
         {
-            ModelPrinter printer = _context.PrintersModel.FirstOrDefault(p => p.Id == Id);
+            ModelPrinter printer = _context.PrintersModels.FirstOrDefault(p => p.Id == Id);
             if (printer == null)
             {
                 return Content("Принтер не знайдено");

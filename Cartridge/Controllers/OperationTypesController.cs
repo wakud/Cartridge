@@ -10,28 +10,23 @@ using Cartridge.Models;
 
 namespace Cartridge.Controllers
 {
-    public class CartridgesController : Controller
+    public class OperationTypesController : Controller
     {
         private readonly MainContext _context;
 
-        public CartridgesController(MainContext context)
+        public OperationTypesController(MainContext context)
         {
             _context = context;
         }
 
-        // GET: Cartridges
+        // GET: OperationTypes
         public async Task<IActionResult> Index()
         {
-            var mainContext = _context.Cartridges
-                .Include(c => c.GetModelCartridge)
-                .ThenInclude(c => c.Printers)
-                .Include(c => c.GetPunkt)
-                .Where(c => c.DateDel == null);
-
+            var mainContext = _context.OperationTypes.Include(o => o.GetPunkt).Include(o => o.GetStan);
             return View(await mainContext.ToListAsync());
         }
 
-        // GET: Cartridges/Details/5
+        // GET: OperationTypes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -39,48 +34,45 @@ namespace Cartridge.Controllers
                 return NotFound();
             }
 
-            var cartridges = await _context.Cartridges
-                .Include(c => c.GetModelCartridge)
-                .ThenInclude(c => c.Printers)
-                .Include(c => c.GetPunkt)
+            var operationType = await _context.OperationTypes
+                .Include(o => o.GetPunkt)
+                .Include(o => o.GetStan)
                 .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (cartridges == null)
+            if (operationType == null)
             {
                 return NotFound();
             }
 
-            return View(cartridges);
+            return View(operationType);
         }
 
-        // GET: Cartridges/Create
+        // GET: OperationTypes/Create
         public IActionResult Create()
         {
-            ViewData["ModelCartridgeId"] = new SelectList(_context.CartridgesModels, "Id", "Name");
-            ViewData["ModelPrinterId"] = new SelectList(_context.PrintersModels, "Id", "Name");
             ViewData["PunktId"] = new SelectList(_context.Punkts, "Id", "Name");
+            ViewData["StanId"] = new SelectList(_context.Stans, "Id", "Name");
             return View();
         }
 
-        // POST: Cartridges/Create
+        // POST: OperationTypes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Code,DateInsert,DateDel,PunktId,ModelCartridgeId,ModelPrinterId,Status")] Cartridges cartridges)
+        public async Task<IActionResult> Create([Bind("Id,Name,FillDefCheck,PunktId,StanId")] OperationType operationType)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(cartridges);
+                _context.Add(operationType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ModelCartridgeId"] = new SelectList(_context.CartridgesModels, "Id", "Id", cartridges.ModelCartridgeId);
-            ViewData["PunktId"] = new SelectList(_context.Punkts, "Id", "Id", cartridges.PunktId);
-            return View(cartridges);
+            ViewData["PunktId"] = new SelectList(_context.Punkts, "Id", "Id", operationType.PunktId);
+            ViewData["StanId"] = new SelectList(_context.Stans, "Id", "Id", operationType.StanId);
+            return View(operationType);
         }
 
-        // GET: Cartridges/Edit/5
+        // GET: OperationTypes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -88,24 +80,24 @@ namespace Cartridge.Controllers
                 return NotFound();
             }
 
-            var cartridges = await _context.Cartridges.FindAsync(id);
-            if (cartridges == null)
+            var operationType = await _context.OperationTypes.FindAsync(id);
+            if (operationType == null)
             {
                 return NotFound();
             }
-            ViewData["ModelCartridgeId"] = new SelectList(_context.CartridgesModels, "Id", "Name", cartridges.ModelCartridgeId);
-            ViewData["PunktId"] = new SelectList(_context.Punkts, "Id", "Name", cartridges.PunktId);
-            return View(cartridges);
+            ViewData["PunktId"] = new SelectList(_context.Punkts, "Id", "Name", operationType.PunktId);
+            ViewData["StanId"] = new SelectList(_context.Stans, "Id", "Name", operationType.StanId);
+            return View(operationType);
         }
 
-        // POST: Cartridges/Edit/5
+        // POST: OperationTypes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Code,DateInsert,DateDel,PunktId,ModelCartridgeId,ModelPrinterId,Status")] Cartridges cartridges)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,FillDefCheck,PunktId,StanId")] OperationType operationType)
         {
-            if (id != cartridges.Id)
+            if (id != operationType.Id)
             {
                 return NotFound();
             }
@@ -114,12 +106,12 @@ namespace Cartridge.Controllers
             {
                 try
                 {
-                    _context.Update(cartridges);
+                    _context.Update(operationType);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CartridgesExists(cartridges.Id))
+                    if (!OperationTypeExists(operationType.Id))
                     {
                         return NotFound();
                     }
@@ -130,12 +122,12 @@ namespace Cartridge.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ModelCartridgeId"] = new SelectList(_context.CartridgesModels, "Id", "Id", cartridges.ModelCartridgeId);
-            ViewData["PunktId"] = new SelectList(_context.Punkts, "Id", "Id", cartridges.PunktId);
-            return View(cartridges);
+            ViewData["PunktId"] = new SelectList(_context.Punkts, "Id", "Id", operationType.PunktId);
+            ViewData["StanId"] = new SelectList(_context.Stans, "Id", "Id", operationType.StanId);
+            return View(operationType);
         }
 
-        // GET: Cartridges/Delete/5
+        // GET: OperationTypes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -143,33 +135,32 @@ namespace Cartridge.Controllers
                 return NotFound();
             }
 
-            var cartridges = await _context.Cartridges
-                .Include(c => c.GetModelCartridge)
-                .ThenInclude(c => c.Printers)
-                .Include(c => c.GetPunkt)
+            var operationType = await _context.OperationTypes
+                .Include(o => o.GetPunkt)
+                .Include(o => o.GetStan)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (cartridges == null)
+            if (operationType == null)
             {
                 return NotFound();
             }
 
-            return View(cartridges);
+            return View(operationType);
         }
 
-        // POST: Cartridges/Delete/5
+        // POST: OperationTypes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var cartridges = await _context.Cartridges.FindAsync(id);
-            _context.Cartridges.Remove(cartridges);
+            var operationType = await _context.OperationTypes.FindAsync(id);
+            _context.OperationTypes.Remove(operationType);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CartridgesExists(int id)
+        private bool OperationTypeExists(int id)
         {
-            return _context.Cartridges.Any(e => e.Id == id);
+            return _context.OperationTypes.Any(e => e.Id == id);
         }
     }
 }

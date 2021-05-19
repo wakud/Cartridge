@@ -10,22 +10,22 @@ using Cartridge.Models;
 
 namespace Cartridge.Controllers
 {
-    public class PunktsController : Controller
+    public class StansController : Controller
     {
         private readonly MainContext _context;
 
-        public PunktsController(MainContext context)
+        public StansController(MainContext context)
         {
             _context = context;
         }
 
-        // GET: Punkts
+        // GET: Stans
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Punkts.ToListAsync());
+            return View(await _context.Stans.ToListAsync());
         }
 
-        // GET: Punkts/Details/5
+        // GET: Stans/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,46 +33,39 @@ namespace Cartridge.Controllers
                 return NotFound();
             }
 
-            var punkt = await _context.Punkts
-                .Include(m => m.Printers)
+            var stan = await _context.Stans
                 .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (punkt == null)
+            if (stan == null)
             {
                 return NotFound();
             }
 
-            return View(punkt);
+            return View(stan);
         }
 
-        // GET: Punkts/Create
+        // GET: Stans/Create
         public IActionResult Create()
         {
-            return View(_context.PrintersModels.ToList());
+            return View();
         }
 
-        // POST: Punkts/Create
+        // POST: Stans/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name")] Punkt punkt, int[] selectedPrint)
+        public async Task<IActionResult> Create([Bind("Id,Name")] Stan stan)
         {
             if (ModelState.IsValid)
             {
-                _context.Punkts.Add(punkt);
-                await _context.SaveChangesAsync();
-                if (selectedPrint != null)
-                {
-                    foreach (var c in _context.PrintersModels.Where(pr => selectedPrint.Contains(pr.Id)))
-                        punkt.Printers.Add(c);        
-                }
-
+                _context.Add(stan);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(punkt);
+            return View(stan);
         }
 
-        // GET: Punkts/Edit/5
+        // GET: Stans/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -80,24 +73,22 @@ namespace Cartridge.Controllers
                 return NotFound();
             }
 
-            Punkt punkt = await _context.Punkts.Include(p => p.Printers).FirstOrDefaultAsync(p => p.Id == id);
-            
-            if (punkt == null)
+            var stan = await _context.Stans.FindAsync(id);
+            if (stan == null)
             {
                 return NotFound();
             }
-            ViewBag.ModelPrinter = _context.PrintersModels.ToList();
-            return View(punkt);
+            return View(stan);
         }
 
-        // POST: Punkts/Edit/5
+        // POST: Stans/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int[] selectedPrint, Punkt punkt, int id)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Stan stan)
         {
-            if (id != punkt.Id)
+            if (id != stan.Id)
             {
                 return NotFound();
             }
@@ -106,26 +97,12 @@ namespace Cartridge.Controllers
             {
                 try
                 {
-                    Punkt NewPunkt = await _context.Punkts.Include(p => p.Printers).FirstOrDefaultAsync(p => p.Id == id);
-                    NewPunkt.Name = punkt.Name;
-                    if (selectedPrint != null)
-                    {
-                        //отримуємо вибрані принтери
-                        foreach (var c in _context.PrintersModels.Where(pr => selectedPrint.Contains(pr.Id)))
-                        {
-                            if (!NewPunkt.Printers.Contains(c))
-                            {
-                                NewPunkt.Printers.Add(c);
-                            }
-                        }
-                    }
-
-                    _context.Update(NewPunkt);
+                    _context.Update(stan);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PunktExists(punkt.Id))
+                    if (!StanExists(stan.Id))
                     {
                         return NotFound();
                     }
@@ -136,10 +113,10 @@ namespace Cartridge.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(punkt);
+            return View(stan);
         }
 
-        // GET: Punkts/Delete/5
+        // GET: Stans/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -147,30 +124,30 @@ namespace Cartridge.Controllers
                 return NotFound();
             }
 
-            var punkt = await _context.Punkts
+            var stan = await _context.Stans
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (punkt == null)
+            if (stan == null)
             {
                 return NotFound();
             }
 
-            return View(punkt);
+            return View(stan);
         }
 
-        // POST: Punkts/Delete/5
+        // POST: Stans/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var punkt = await _context.Punkts.FindAsync(id);
-            _context.Punkts.Remove(punkt);
+            var stan = await _context.Stans.FindAsync(id);
+            _context.Stans.Remove(stan);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PunktExists(int id)
+        private bool StanExists(int id)
         {
-            return _context.Punkts.Any(e => e.Id == id);
+            return _context.Stans.Any(e => e.Id == id);
         }
     }
 }

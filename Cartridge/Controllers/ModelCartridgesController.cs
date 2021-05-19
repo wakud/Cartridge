@@ -29,7 +29,7 @@ namespace Cartridge.Controllers
         // GET: ModelCartridges
         public async Task<IActionResult> Index()
         {
-            return View(await _context.CartridgesModel.ToListAsync());
+            return View(await _context.CartridgesModels.ToListAsync());
         }
 
         // GET: ModelCartridges/Details/5
@@ -40,7 +40,7 @@ namespace Cartridge.Controllers
                 return NotFound();
             }
 
-            var modelCartridge = await _context.CartridgesModel
+            var modelCartridge = await _context.CartridgesModels
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (modelCartridge == null)
             {
@@ -102,7 +102,7 @@ namespace Cartridge.Controllers
                 return NotFound();
             }
 
-            var modelCartridge = await _context.CartridgesModel.FindAsync(id);
+            var modelCartridge = await _context.CartridgesModels.FindAsync(id);
             if (modelCartridge == null)
             {
                 return NotFound();
@@ -115,7 +115,7 @@ namespace Cartridge.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, string name, string description, bool baraban, IFormFile files)
         {
-            ModelCartridge modelCartridge = await _context.CartridgesModel.FindAsync(id);
+            ModelCartridge modelCartridge = await _context.CartridgesModels.FindAsync(id);
             if (id != modelCartridge.Id)
             {
                 return NotFound();
@@ -171,7 +171,7 @@ namespace Cartridge.Controllers
                 return NotFound();
             }
 
-            var modelCartridge = await _context.CartridgesModel
+            var modelCartridge = await _context.CartridgesModels
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (modelCartridge == null)
             {
@@ -186,20 +186,20 @@ namespace Cartridge.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var modelCartridge = await _context.CartridgesModel.FindAsync(id);
-            _context.CartridgesModel.Remove(modelCartridge);
+            var modelCartridge = await _context.CartridgesModels.FindAsync(id);
+            _context.CartridgesModels.Remove(modelCartridge);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ModelCartridgeExists(int id)
         {
-            return _context.CartridgesModel.Any(e => e.Id == id);
+            return _context.CartridgesModels.Any(e => e.Id == id);
         }
 
         public async Task<IActionResult> CartridgeImage(int Id)
         {
-            ModelCartridge cartridges = _context.CartridgesModel.FirstOrDefault(p => p.Id == Id);
+            ModelCartridge cartridges = _context.CartridgesModels.FirstOrDefault(p => p.Id == Id);
             if (cartridges == null)
             {
                 return Content("Картридж не знайдено");
