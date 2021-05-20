@@ -59,6 +59,7 @@ namespace Cartridge.Controllers
             ViewData["ModelCartridgeId"] = new SelectList(_context.CartridgesModels, "Id", "Name");
             ViewData["ModelPrinterId"] = new SelectList(_context.PrintersModels, "Id", "Name");
             ViewData["PunktId"] = new SelectList(_context.Punkts, "Id", "Name");
+            ViewData["StanId"] = new SelectList(_context.Stans, "Id", "Name");
             return View();
         }
 
@@ -67,7 +68,7 @@ namespace Cartridge.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Code,DateInsert,DateDel,PunktId,ModelCartridgeId,ModelPrinterId,Status")] Cartridges cartridges)
+        public async Task<IActionResult> Create([Bind("Id,Code,DateInsert,DateDel,PunktId,ModelCartridgeId,ModelPrinterId,Status,StanId")] Cartridges cartridges)
         {
             if (ModelState.IsValid)
             {
@@ -103,7 +104,7 @@ namespace Cartridge.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Code,DateInsert,DateDel,PunktId,ModelCartridgeId,ModelPrinterId,Status")] Cartridges cartridges)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Code,DateInsert,DateDel,PunktId,ModelCartridgeId,ModelPrinterId,Status,StanId")] Cartridges cartridges)
         {
             if (id != cartridges.Id)
             {

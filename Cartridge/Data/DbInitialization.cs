@@ -10,6 +10,9 @@ namespace Cartridge.Data
         {
             if (!context.Punkts.Any())
             {
+                Punkt nul = new() { Name = "Невідомо" };
+                Punkt sklad = new() { Name = "Центральний офіс" };
+                Punkt zapravka = new() { Name = "Хардсофт (обслуговування)" };
                 Punkt tr27 = new() { Name = "Бережанський ЦОК" };
                 Punkt tr28 = new() { Name = "Борщівський ЦОК" };
                 Punkt tr29 = new() { Name = "Бучацький ЦОК" };
@@ -27,10 +30,8 @@ namespace Cartridge.Data
                 Punkt tr42 = new() { Name = "Чортківський ЦОК" };
                 Punkt tr43 = new() { Name = "Шумський ЦОК" };
                 Punkt tr44 = new() { Name = "Підгаєцький ЦОК" };
-                Punkt sklad = new() { Name = "Склад" };
-                Punkt zapravka = new() { Name = "Хардсофт (обслуговування)" };
-                context.AddRange(tr27, tr28, tr29, tr30, tr31, tr32, tr33, tr34, tr35, tr36, tr37, tr38, tr39, tr41,
-                     tr42, tr43, tr44, sklad, zapravka);
+                context.AddRange(/*nul,*/ sklad, zapravka, tr27, tr28, tr29, tr30, tr31, tr32, tr33, tr34, tr35, tr36, tr37, tr38, tr39, tr41,
+                     tr42, tr43, tr44);
                 context.SaveChanges();
             }
 
@@ -41,6 +42,13 @@ namespace Cartridge.Data
                 Stan rem = new(){ Name = "На ремонті" };
                 Stan skl = new() { Name = "На складі" };
                 context.AddRange(eks, serv, rem, skl);
+                context.SaveChanges();
+            }
+
+            if (!context.OperationTypes.Any())
+            {
+                OperationType rec = new() { Name = "Прийнято з обслуговування", PunktId = 1, FillDefCheck = true, StanId = 4 };
+                context.AddRange(rec);
                 context.SaveChanges();
             }
         }

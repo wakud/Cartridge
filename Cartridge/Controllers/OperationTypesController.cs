@@ -22,7 +22,12 @@ namespace Cartridge.Controllers
         // GET: OperationTypes
         public async Task<IActionResult> Index()
         {
-            var mainContext = _context.OperationTypes.Include(o => o.GetPunkt).Include(o => o.GetStan);
+            var mainContext = _context.OperationTypes
+                .Include(o => o.GetPunkt)
+                .Include(o => o.GetStan);
+
+            List<Punkt> punkts = _context.Punkts.ToList();
+            ViewData["PunktId"] = new SelectList(_context.Punkts, "Id", "Name");
             return View(await mainContext.ToListAsync());
         }
 
@@ -49,6 +54,8 @@ namespace Cartridge.Controllers
         // GET: OperationTypes/Create
         public IActionResult Create()
         {
+            //List<Punkt> punkts = _context.Punkts.ToList();
+            //punkts.Insert(0, new Punkt { Name = "---------", Id = 1 });
             ViewData["PunktId"] = new SelectList(_context.Punkts, "Id", "Name");
             ViewData["StanId"] = new SelectList(_context.Stans, "Id", "Name");
             return View();

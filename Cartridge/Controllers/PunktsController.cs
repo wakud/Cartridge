@@ -125,14 +125,14 @@ namespace Cartridge.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PunktExists(punkt.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
+                    //if (!PunktExists(punkt.Id))
+                    //{
+                    //    return NotFound();
+                    //}
+                    //else
+                    //{
                         throw;
-                    }
+                    //}
                 }
                 return RedirectToAction(nameof(Index));
             }

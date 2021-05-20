@@ -36,6 +36,10 @@
                 <select asp-for="ModelCartridgeId" class="form-control" asp-items="ViewBag.ModelCartridgeId"></select>
                 <span asp-validation-for="ModelCartridgeId" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="StanId" class="control-label">Стан катриджу</label>
+                <select asp-for="StanId" class="form-control" asp-items="ViewBag.StanId"></select>
+            </div>
             <img src="@Url.Action("CartridgeImage", "ModelCartridges", new { id = Model.GetModelCartridge.Id })" style="width:300px;" />
             <div class="form-group form-check">
                 <label class="form-check-label">

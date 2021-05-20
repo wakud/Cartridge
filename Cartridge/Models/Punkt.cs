@@ -8,7 +8,7 @@ namespace Cartridge.Models
     public class Punkt
     {
         [Key]
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string Name { get; set; }
         public ICollection<ModelPrinter> Printers { get; set; }
         public ICollection<Cartridges> Cartridges { get; set; }
