@@ -1,0 +1,51 @@
+﻿@using Cartridge.Models
+@using Cartridge.ViewModel
+@model IndexViewModel
+
+
+@{
+    ViewData["Title"] = "Заправлені картриджі на складі";
+}
+
+
+<div class="container text-center">
+    <h2>Заправлені картриджі на складі</h2>
+</div>
+<br />
+
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Код</th>
+                <th>Модель картриджу</th>
+                <th>Де знаходиться</th>
+                <th>Фото картриджу</th>
+                <th>Модель принтеру</th>
+                <th>Заправлений</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Cartridges c in Model.cartridges)
+            {
+                <tr>
+                    <td id="code_C">@c.Code</td>
+                    <td>@c.GetModelCartridge.Name</td>
+                    <td>@c.GetPunkt.Name</td>
+                    <td>
+                        <img src="@Url.Action("CartridgeImage", "ModelCartridges", new { id = @c.GetModelCartridge.Id })" style="width:100px;" />
+                    </td>
+                    <td>@c.GetModelCartridge.Description</td>
+                    <td>@Html.DisplayFor(modelItem => c.Status)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+
+    </script>
+}

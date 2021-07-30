@@ -1,0 +1,178 @@
+﻿@using Cartridge.Models
+@using Cartridge.ViewModel
+@model IndexViewModel
+
+
+@{
+    ViewData["Title"] = "Прийом картриджів";
+}
+<div class="col-md-8">
+    <form class="form" method="get">
+        <div class="input-group input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">
+                    @Model.operations.Name
+                </span>
+                <div class="col-sm-9">
+                    <select id="Filtr" name="location" class="form-control">
+                        @foreach (Punkt comp in Model.punkts)
+                        {
+                            @if (Model.selectedLocationId != null && Model.selectedLocationId == comp.Id)
+                            {
+                                <option selected value="@comp.Id">@comp.Name</option>
+                            }
+                            <option value="@comp.Id">@comp.Name</option>
+                        }
+                    </select>
+                </div>
+                <div>
+                    <input type="submit" value="Фільтр" class="btn waves-effect waves-light hor-grd btn-grd-inverse" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<hr />
+
+<div class="col-md-8">
+    <form asp-action="Reception" method="post" enctype="multipart/form-data">
+        <div class="input-group input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">
+                    Ідентифікатор картриджа
+                </span>
+                <div class="col-sm-9">
+                    <input name="Code" type="text" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm">
+                </div>
+                <div>
+                    <input type="submit" value="@Model.operations.Name.Split()[0]" class="btn waves-effect waves-light hor-grd btn-grd-success" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group input-group mr-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Картридж буде передано на: </span>
+                <div class="col-sm-9">
+                    @if (Model.operations.GetPunkt == null)
+                    {
+                        <select onchange="changeOption()" id="new_location" class="form-control"
+                                name="new_location" asp-items="@ViewBag.Punkts"></select>
+                    }
+                    else
+                    {
+                        <input name="new_location" value="@Model.operations.GetPunkt.Id" hidden>
+                        <span class="form-control">@Model.operations.GetPunkt.Name</span>
+                    }
+                </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" onchange="changeOption()" class="form-check-input" name="is_filled" />
+                    Заправлений
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<hr />
+
+<table class="table">
+    <thead>
+        <tr>
+            @*<th style="text-align:center;"><input type="checkbox"></th>*@
+            <th>Код</th>
+            <th>Модель картриджу</th>
+            <th>Де знаходиться</th>
+            <th>Фото картриджу</th>
+            <th>Модель принтеру</th>
+            <th>Заправлений</th>
+            <th>Дія</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Cartridges c in Model.cartridges)
+        {
+            <tr>
+                @*<td style="text-align:center;"><input type="checkbox" name="checkBoxClass"></td>*@
+                <td id="code_C">@c.Code</td>
+                <td>@c.GetModelCartridge.Name</td>
+                <td>@c.GetPunkt.Name</td>
+                <td>
+                    <img src="@Url.Action("CartridgeImage", "ModelCartridges", new { id = @c.GetModelCartridge.Id })" style="width:100px;" />
+                </td>
+                <td>@c.GetModelCartridge.Description</td>
+                <td>@Html.DisplayFor(modelItem => c.Status)</td>
+                <td>
+                    @if (Model.operations.Id == 2)
+                    {
+                        @using (Html.BeginForm("Reception", "Operation",
+                        new { code = c.Code, location = c.PunktId, id = Model.operations.Id },
+                        FormMethod.Post))
+                        {
+                            <button class="btn waves-effect waves-light hor-grd btn-grd-success">
+                                @Model.operations.Name.Split()[0]
+                            </button>
+                        };
+                    }
+                    else if (Model.operations.Id == 3)
+                    {
+                        @using (Html.BeginForm("Reception", "Operation",
+                        new { code = c.Code, location = c.PunktId, id = Model.operations.Id, is_filled = true },
+                        FormMethod.Post))
+                        {
+                            <button class="btn waves-effect waves-light hor-grd btn-grd-success">
+                                @Model.operations.Name.Split()[0]
+                            </button>
+                        };
+                    }
+                    else if (Model.operations.Id == 4)
+                    {
+                    @using (Html.BeginForm("Reception", "Operation",
+                    new { code = c.Code, location = c.PunktId, id = Model.operations.Id }, FormMethod.Post))
+                    {
+                        <button class="btn waves-effect waves-light hor-grd btn-grd-success">
+                            @Model.operations.Name.Split()[0]
+                        </button>
+                    };
+                    }
+                    else if (Model.operations.Id == 5)
+                    {
+                    @using (Html.BeginForm("Reception", "Operation",
+                    new { code = c.Code, location = c.PunktId, id = Model.operations.Id, is_filled = true },
+                    FormMethod.Post))
+                    {
+                        <button class="btn waves-effect waves-light hor-grd btn-grd-success">
+                            @Model.operations.Name.Split()[0]
+                        </button>
+                    };
+                    }
+                    else if (Model.operations.Id == 6)
+                    {
+                    @using (Html.BeginForm("Reception", "Operation",
+                    new { code = c.Code, location = c.PunktId, id = Model.operations.Id }, FormMethod.Post))
+                    {
+                        <button class="btn waves-effect waves-light hor-grd btn-grd-success">
+                            @Model.operations.Name.Split()[0]
+                        </button>
+                    };
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (ViewBag.Added != null)
+{
+    <span class="alert alert-success">Операцію виконано</span>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $('.table').checkboxTable();
+        function changeOption() {
+            var New_local = $("#new_location").val();
+            $('form').append('<input name="new_location" value="' + New_local + '" hidden>');
+            $('form').append('<input name="filled" value="' + filled + '" hidden>');
+        }
+    </script>
+}

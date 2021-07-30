@@ -10,45 +10,46 @@ namespace Cartridge.Data
         {
             if (!context.Punkts.Any())
             {
-                Punkt nul = new() { Name = "Невідомо" };
-                Punkt sklad = new() { Name = "Центральний офіс" };
-                Punkt zapravka = new() { Name = "Хардсофт (обслуговування)" };
-                Punkt tr27 = new() { Name = "Бережанський ЦОК" };
-                Punkt tr28 = new() { Name = "Борщівський ЦОК" };
-                Punkt tr29 = new() { Name = "Бучацький ЦОК" };
-                Punkt tr30 = new() { Name = "Гусятинський ЦОК" };
-                Punkt tr31 = new() { Name = "Заліщицький ЦОК" };
-                Punkt tr32 = new() { Name = "Збаразький ЦОК" };
-                Punkt tr33 = new() { Name = "Зборівський ЦОК" };
-                Punkt tr34 = new() { Name = "Козівський ЦОК" };
-                Punkt tr35 = new() { Name = "Кременецький ЦОК" };
-                Punkt tr36 = new() { Name = "Лановецький ЦОК" };
-                Punkt tr37 = new() { Name = "Монастириський ЦОК" };
-                Punkt tr38 = new() { Name = "Підволочиський ЦОК" };
-                Punkt tr39 = new() { Name = "Тернопільський ЦОК" };
-                Punkt tr41 = new() { Name = "Теребовлянський ЦОК" };
-                Punkt tr42 = new() { Name = "Чортківський ЦОК" };
-                Punkt tr43 = new() { Name = "Шумський ЦОК" };
-                Punkt tr44 = new() { Name = "Підгаєцький ЦОК" };
-                context.AddRange(/*nul,*/ sklad, zapravka, tr27, tr28, tr29, tr30, tr31, tr32, tr33, tr34, tr35, tr36, tr37, tr38, tr39, tr41,
-                     tr42, tr43, tr44);
+                Punkt sklad = new() { Name = "Склад" };
+                context.Add(sklad);
+                context.SaveChanges();
+                Punkt zapravka = new() { Name = "обслуговування" };
+                context.Add(zapravka);
                 context.SaveChanges();
             }
 
             if (!context.Stans.Any())
             {
                 Stan eks = new() { Name = "В роботі" };
+                context.Add(eks);
+                context.SaveChanges();
                 Stan serv = new() { Name = "На заправці" };
+                context.Add(serv);
+                context.SaveChanges();
                 Stan rem = new(){ Name = "На ремонті" };
+                context.Add(rem);
+                context.SaveChanges();
                 Stan skl = new() { Name = "На складі" };
-                context.AddRange(eks, serv, rem, skl);
+                context.Add(skl);
                 context.SaveChanges();
             }
 
             if (!context.OperationTypes.Any())
             {
-                OperationType rec = new() { Name = "Прийнято з обслуговування", PunktId = 1, FillDefCheck = true, StanId = 4 };
-                context.AddRange(rec);
+                OperationType rec1 = new() { Name = "Прийняти картридж", PunktId = 1, FillDefCheck = true, StanId = 4 };
+                context.Add(rec1);
+                context.SaveChanges();
+                OperationType rec2 = new() { Name = "Видати картридж", PunktId = 1, FillDefCheck = true, StanId = 4 };
+                context.Add(rec2);
+                context.SaveChanges();
+                OperationType rec3 = new() { Name = "Передати на обслуговування", PunktId = 1, FillDefCheck = true, StanId = 4 };
+                context.Add(rec3);
+                context.SaveChanges();
+                OperationType rec4 = new() { Name = "Прийняти з обслуговування", PunktId = 1, FillDefCheck = true, StanId = 4 };
+                context.Add(rec4);
+                context.SaveChanges();
+                OperationType rec5 = new() { Name = "Повернення", PunktId = 1, FillDefCheck = true, StanId = 4 };
+                context.Add(rec5);
                 context.SaveChanges();
             }
         }

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cartridge.Migrations
 {
     [DbContext(typeof(MainContext))]
-    [Migration("20210519091504_init")]
+    [Migration("20210521094846_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -155,22 +155,13 @@ namespace Cartridge.Migrations
                     b.Property<int?>("CartridgeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CatridgeId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("DateOperation")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("NextPlaceId")
-                        .HasColumnType("int");
 
                     b.Property<int?>("NextPunktId")
                         .HasColumnType("int");
 
                     b.Property<int>("OperationTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PrevPlaceId")
                         .HasColumnType("int");
 
                     b.Property<int?>("PrevPunktId")
@@ -191,7 +182,7 @@ namespace Cartridge.Migrations
 
             modelBuilder.Entity("Cartridge.Models.Punkt", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);

@@ -6,29 +6,50 @@
     <title>@ViewData["Title"] - Cartridge</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <style>
+        .shadowbox {
+            width: 100%;
+            border: 1px solid #333;
+            box-shadow: 8px 8px 5px #444;
+            padding: 8px 12px;
+            background-image: linear-gradient(180deg, #fff, #ddd 40%, #ccc);
+        }
+    </style>
 </head>
+
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Облік картриджів</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+        <nav class="navbar navbar-expand-lg navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 text-center">
+            <div class="shadowbox">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <h2>Облік картриджів в організації</h2>
+                </a>
+                @*<button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="list-group-item list-group-item-action bg-light" asp-area="" asp-controller="Home" asp-action="Index">Головна</a>
+                            <button class="btn waves-effect waves-light hor-grd btn-grd-inverse border-light"
+                                    onclick="location.href = '@Url.Action("Index", "Home")'">
+                                <b>Головна</b>
+                            </button>
                         </li>
                         <li class="nav-item">
-                            <a class="list-group-item list-group-item-action bg-light" asp-area="" asp-controller="Home" asp-action="Dovidnyk">Довідники</a>
+                            <button class="btn waves-effect waves-light hor-grd btn-grd-inverse border-light"
+                                    onclick="location.href = '@Url.Action("Dovidnyk", "Home")'">
+                                <b>Довідники</b>
+                            </button>
                         </li>
                         <li class="nav-item">
-                            <a class="list-group-item list-group-item-action bg-light" asp-area="" asp-controller="Home" asp-action="Zvity">Звітність</a>
+                            <button class="btn waves-effect waves-light hor-grd btn-grd-inverse border-light"
+                                    onclick="location.href = '@Url.Action("Zvity", "Home")'">
+                                <b>Звітність</b>
+                            </button>
                         </li>
                     </ul>
-                </div>
+                </div>*@
             </div>
         </nav>
     </header>
@@ -40,7 +61,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2021 - Cartridge - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy;Кудрик В.П. 2021 - Облік картриджів на фірмі
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

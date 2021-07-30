@@ -40,16 +40,18 @@ namespace Cartridge.Controllers
             }
 
             var cartridges = await _context.Cartridges
-                .Include(c => c.GetModelCartridge)
-                .ThenInclude(c => c.Printers)
+                .Include(c => c.GetModelCartridge).ThenInclude(c => c.Printers)
                 .Include(c => c.GetPunkt)
+                .Include(c => c.Operation).ThenInclude(o => o.Type)
+                .Include(c => c.Operation).ThenInclude(o => o.PrevPunkt)
+                .Include(c => c.Operation).ThenInclude(o => o.NextPunkt)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (cartridges == null)
             {
                 return NotFound();
             }
-
+            
             return View(cartridges);
         }
 
@@ -60,6 +62,7 @@ namespace Cartridge.Controllers
             ViewData["ModelPrinterId"] = new SelectList(_context.PrintersModels, "Id", "Name");
             ViewData["PunktId"] = new SelectList(_context.Punkts, "Id", "Name");
             ViewData["StanId"] = new SelectList(_context.Stans, "Id", "Name");
+
             return View();
         }
 
@@ -78,6 +81,7 @@ namespace Cartridge.Controllers
             }
             ViewData["ModelCartridgeId"] = new SelectList(_context.CartridgesModels, "Id", "Id", cartridges.ModelCartridgeId);
             ViewData["PunktId"] = new SelectList(_context.Punkts, "Id", "Id", cartridges.PunktId);
+            ViewData["StanId"] = new SelectList(_context.Stans, "Id", "Name", cartridges.StanId);
             return View(cartridges);
         }
 
@@ -96,6 +100,8 @@ namespace Cartridge.Controllers
             }
             ViewData["ModelCartridgeId"] = new SelectList(_context.CartridgesModels, "Id", "Name", cartridges.ModelCartridgeId);
             ViewData["PunktId"] = new SelectList(_context.Punkts, "Id", "Name", cartridges.PunktId);
+            ViewData["StanId"] = new SelectList(_context.Stans, "Id", "Name", cartridges.StanId);
+
             return View(cartridges);
         }
 
@@ -133,6 +139,8 @@ namespace Cartridge.Controllers
             }
             ViewData["ModelCartridgeId"] = new SelectList(_context.CartridgesModels, "Id", "Id", cartridges.ModelCartridgeId);
             ViewData["PunktId"] = new SelectList(_context.Punkts, "Id", "Id", cartridges.PunktId);
+            ViewData["StanId"] = new SelectList(_context.Stans, "Id", "Id", cartridges.StanId);
+
             return View(cartridges);
         }
 

@@ -122,9 +122,9 @@ namespace Cartridge.Migrations
                     DateInsert = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateDel = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Status = table.Column<bool>(type: "bit", nullable: false),
-                    StanId = table.Column<int>(type: "int", nullable: false),
                     PunktId = table.Column<int>(type: "int", nullable: true),
                     ModelCartridgeId = table.Column<int>(type: "int", nullable: false),
+                    StanId = table.Column<int>(type: "int", nullable: false),
                     ModelPrinterId = table.Column<int>(type: "int", nullable: true),
                     ServiceId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -194,11 +194,8 @@ namespace Cartridge.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DateOperation = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PrevPlaceId = table.Column<int>(type: "int", nullable: false),
                     PrevPunktId = table.Column<int>(type: "int", nullable: true),
-                    NextPlaceId = table.Column<int>(type: "int", nullable: false),
                     NextPunktId = table.Column<int>(type: "int", nullable: true),
-                    CatridgeId = table.Column<int>(type: "int", nullable: false),
                     CartridgeId = table.Column<int>(type: "int", nullable: true),
                     OperationTypeId = table.Column<int>(type: "int", nullable: false)
                 },

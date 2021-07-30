@@ -18,7 +18,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="DateInsert" class="control-label">Дата введення в експлуатацію</label>
-                <input asp-for="DateInsert" class="form-control" />
+                <input asp-for="DateInsert" value="@DateTime.Now" type="datetime" class="form-control" />
                 <span asp-validation-for="DateInsert" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -40,7 +40,7 @@
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Status" /> Заправлений?
+                    <input asp-for="Status" value="checked" type="checkbox" class="form-check-input" /> Заправлений?
                 </label>
             </div>
             <div class="form-group">
@@ -54,4 +54,7 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script>
+
+</script>
 }

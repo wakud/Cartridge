@@ -1,5 +1,9 @@
-﻿using Cartridge.Models;
+﻿using Cartridge.Data;
+using Cartridge.Models;
+using Cartridge.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -12,15 +16,18 @@ namespace Cartridge.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly MainContext db;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, MainContext context)
         {
             _logger = logger;
+            db = context;
         }
 
         public IActionResult Index()
         {
-            return View();
+            List<OperationType> ots = db.OperationTypes.ToList();
+            return View(ots);
         }
 
         public IActionResult Dovidnyk()
@@ -30,7 +37,23 @@ namespace Cartridge.Controllers
 
         public IActionResult Zvity()
         {
-            return View();
+            IEnumerable<Cartridges> cart = db.Cartridges
+                .Include(c => c.GetModelCartridge)
+                .ThenInclude(c => c.Printers)
+                .Include(c => c.GetPunkt)
+                .Include(c => c.GetStan);
+
+            List<Punkt> company = db.Punkts
+                .Select(p => new Punkt { Id = p.Id, Name = p.Name })
+                .ToList();
+            company.Insert(0, new Punkt { Id = 0, Name = "--- Всі ---" });
+
+            IndexViewModel ivm = new IndexViewModel { cartridges = cart, punkts = company };
+
+            ViewData["Punkts"] = new SelectList(db.Punkts, "Id", "Name");
+            ViewData["Stans"] = new SelectList(db.Stans, "Id", "Name");
+
+            return View(ivm);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
