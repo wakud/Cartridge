@@ -168,11 +168,11 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script>
-        $('.table').checkboxTable();
+        $('.table').checkboxTable()
         function changeOption() {
-            var New_local = $("#new_location").val();
-            $('form').append('<input name="new_location" value="' + New_local + '" hidden>');
-            $('form').append('<input name="filled" value="' + filled + '" hidden>');
+            var newLocal = $('#new_location').val()
+            $('form').append('<input name="new_location" value="' + newLocal + '" hidden>')
+            $('form').append('<input name="filled" value="' + filled + '" hidden>')
         }
     </script>
 }

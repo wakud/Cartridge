@@ -1,6 +1,7 @@
 using Cartridge.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -59,7 +60,7 @@ namespace Cartridge
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
-
+            
             //Запускаємо створення БД і наповнюємо її
             using (var scope = app.ApplicationServices.CreateScope())
             {
