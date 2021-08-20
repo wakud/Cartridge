@@ -1,6 +1,7 @@
 ﻿using Cartridge.Data;
 using Cartridge.Models;
 using Cartridge.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace Cartridge.Controllers
 {
+    [Authorize]
     public class ZvityController : Controller
     {
         private readonly MainContext db;
@@ -94,20 +96,5 @@ namespace Cartridge.Controllers
             return View(ivm);
         }
 
-
-        // POST: Zvity/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

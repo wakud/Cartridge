@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Cartridge.Data;
 using Cartridge.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Cartridge.Controllers
 {
+    [Authorize]
     public class PunktsController : Controller
     {
         private readonly MainContext _context;

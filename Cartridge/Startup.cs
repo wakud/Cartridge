@@ -1,4 +1,5 @@
 using Cartridge.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -30,35 +31,53 @@ namespace Cartridge
             string connection = Configuration.GetConnectionString("DefaultConnection");
             // створюємо БД
             services.AddDbContext<MainContext>(options => options.UseSqlServer(connection));
+            // авторизація користувача
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options => //CookieAuthenticationOptions
+                {
+                    options.LoginPath = new PathString("/Account/Login");
+                    options.AccessDeniedPath = new PathString("/Account/Login");
+                });
+
+            //робимо перевірку на адміністратора
+            services.AddAuthorization(opts =>
+            {
+                opts.AddPolicy("OnlyForAdministrator", policy => {
+                    policy.RequireClaim("AdminStatus", "1");
+                });
+            });
 
             services.AddControllersWithViews();
+            services.AddMvc();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            //env.EnvironmentName = "Production";   //в стані робочого продукту
+            if (env.IsDevelopment())    //перевіряємо чи в стані розробки
             {
-                app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage();    //в стані розробки виводимо помилки
             }
-            else
+            else    //в стані продакшин виводимо помилку 404
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
 
-            app.UseRouting();
-
-            app.UseAuthorization();
+            app.UseStaticFiles();       //чтобы приложение могло бы отдавать статические файлы клиенту
+            app.UseRouting();           // добавляем возможности маршрутизации
+            app.UseAuthentication();    // аутентификация
+            app.UseAuthorization();     // авторизация
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    //при старті проги запускаємо сторінку логіну
+                    pattern: "{controller=Account}/{action=Login}/{id?}"
+                    //при старті проги запускаємо основну сторінку
+                    //pattern: "{controller=Home}/{action=Index}/{id?}"         
+                    );
             });
             
             //Запускаємо створення БД і наповнюємо її

@@ -7,7 +7,8 @@ namespace Cartridge.ViewModel
     {
         public IEnumerable<Cartridges> cartridges { get; set; }
         public IEnumerable<Punkt> punkts { get; set; }
-        public OperationType operations { get; set; }
+        public OperationType operationsType { get; set; }
         public int? selectedLocationId { get; set; }
+        public int? newPunkt { get; set; }
     }
 }

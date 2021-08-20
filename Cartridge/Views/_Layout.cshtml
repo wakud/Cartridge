@@ -7,31 +7,39 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <style>
-        a:hover {
-            text-decoration: none;
-            text-shadow: 1px 1px 3px #000b82;
+        .shadowbox {
+            width: 100%;
+            border: 1px solid #333;
+            box-shadow: 8px 8px 5px #444;
+            padding: 8px 12px;
+            background-image: linear-gradient(180deg, #fff, #ddd 40%, #ccc);
+        }
+        .shadowbox:hover {
+            width: 100%;
+            border: 1px solid #333;
+            box-shadow: 8px 8px 5px #444;
+            padding: 8px 12px;
+            background-image: linear-gradient(180deg, #fff, #ddd 40%, #ccc);
         }
     </style>
 </head>
 
 <body>
     <header>
-        <nav class="navbar-dark navbar-expand-lg navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 text-center">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-11 text-left">
-                        <a class="funny-title section-title" asp-area="" asp-controller="Home" asp-action="Index">
-                            <div class="header-h1">
+        <nav class="navbar navbar-expand-lg navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 text-center">
+            <div class="shadowbox">
+                <form method="post" asp-controller="Account" asp-action="Logout">
+                    <div class="row">
+                        <div class="col-10 text-left">
+                            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                                 <h2>Облік картриджів в організації</h2>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-1 text-right">
-                        <form method="post" asp-controller="Account" asp-action="Logout">
+                            </a>
+                        </div>
+                        <div class="col-2 text-right">
                             <button class="btn waves-effect waves-light hor-grd btn-grd-inverse my-2" type="submit">Вихід</button>
-                        </form>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         </nav>
     </header>
@@ -53,12 +61,7 @@
         $("#menu-toggle").click(function (e) {
             e.preventDefault();
             $("#wrapper").toggleClass("toggled");
-        });
-    </script>
-    <script src="~/js/jquery.tablesort.js"></script>
-    <script>
-        $(document).ready(() => {
-            $('table').tablesort();
+
         });
     </script>
     @await RenderSectionAsync("Scripts", required: false)

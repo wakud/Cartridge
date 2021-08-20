@@ -16,6 +16,8 @@
             </button>
         }
 </div>
+    @if (ViewContext.HttpContext.User.HasClaim("AdminStatus", "1"))
+    {
         <hr />
         <h2>Налаштування довідників</h2>
         <div class="btn-group">
@@ -43,9 +45,14 @@
                     onclick="location.href = '@Url.Action("Index", "Cartridges")'">
                 <b>Картриджі</b>
             </button>
+            <button class="btn waves-effect waves-light hor-grd btn-grd-info border-light"
+                    onclick="location.href = '@Url.Action("Index", "User")'">
+                <b>Користувачі</b>
+            </button>
         </div>
+    }
         <hr />
-        <h2>Звітність</h2>
+        <h2>Статистика</h2>
         <div class="btn-group">
             <button class="btn waves-effect waves-light hor-grd btn-grd-warning border-light"
                     onclick="location.href = '@Url.Action("Sklad_Refueled", "Zvity")'">

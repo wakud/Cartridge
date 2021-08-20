@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Cartridge.Data;
 using Cartridge.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Cartridge.Controllers
 {
+    [Authorize]
     public class OperationTypesController : Controller
     {
         private readonly MainContext _context;
@@ -19,7 +21,7 @@ namespace Cartridge.Controllers
             _context = context;
         }
 
-        // GET: OperationTypes
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var mainContext = _context.OperationTypes
@@ -31,7 +33,7 @@ namespace Cartridge.Controllers
             return View(await mainContext.ToListAsync());
         }
 
-        // GET: OperationTypes/Details/5
+        [HttpGet]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -51,7 +53,7 @@ namespace Cartridge.Controllers
             return View(operationType);
         }
 
-        // GET: OperationTypes/Create
+        [HttpGet]
         public IActionResult Create()
         {
             //List<Punkt> punkts = _context.Punkts.ToList();
@@ -61,9 +63,6 @@ namespace Cartridge.Controllers
             return View();
         }
 
-        // POST: OperationTypes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,FillDefCheck,PunktId,StanId")] OperationType operationType)
@@ -79,7 +78,7 @@ namespace Cartridge.Controllers
             return View(operationType);
         }
 
-        // GET: OperationTypes/Edit/5
+        [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -97,9 +96,6 @@ namespace Cartridge.Controllers
             return View(operationType);
         }
 
-        // POST: OperationTypes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,FillDefCheck,PunktId,StanId")] OperationType operationType)
@@ -134,7 +130,7 @@ namespace Cartridge.Controllers
             return View(operationType);
         }
 
-        // GET: OperationTypes/Delete/5
+        [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -154,7 +150,6 @@ namespace Cartridge.Controllers
             return View(operationType);
         }
 
-        // POST: OperationTypes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

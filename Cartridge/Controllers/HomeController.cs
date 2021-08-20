@@ -1,6 +1,7 @@
 ﻿using Cartridge.Data;
 using Cartridge.Models;
 using Cartridge.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace Cartridge.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -28,32 +30,6 @@ namespace Cartridge.Controllers
         {
             List<OperationType> ots = db.OperationTypes.ToList();
             return View(ots);
-        }
-
-        public IActionResult Dovidnyk()
-        {
-            return View();
-        }
-
-        public IActionResult Zvity()
-        {
-            IEnumerable<Cartridges> cart = db.Cartridges
-                .Include(c => c.GetModelCartridge)
-                .ThenInclude(c => c.Printers)
-                .Include(c => c.GetPunkt)
-                .Include(c => c.GetStan);
-
-            List<Punkt> company = db.Punkts
-                .Select(p => new Punkt { Id = p.Id, Name = p.Name })
-                .ToList();
-            company.Insert(0, new Punkt { Id = 0, Name = "--- Всі ---" });
-
-            IndexViewModel ivm = new IndexViewModel { cartridges = cart, punkts = company };
-
-            ViewData["Punkts"] = new SelectList(db.Punkts, "Id", "Name");
-            ViewData["Stans"] = new SelectList(db.Stans, "Id", "Name");
-
-            return View(ivm);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

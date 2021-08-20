@@ -9,8 +9,8 @@ namespace Cartridge.Models
     public class OperationType
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public bool FillDefCheck { get; set; }
+        public string Name { get; set; }        //назва операції
+        public bool FillDefCheck { get; set; }  //пустий чи заправлений
 
         [ForeignKey("PunktId")]
         public int? PunktId { get; set; }
@@ -18,7 +18,12 @@ namespace Cartridge.Models
 
         [ForeignKey("StanId")]
         public int StanId { get; set; }
-        public virtual Stan GetStan { get; set; }
+        public virtual Stan GetStan { get; set; }   //стан картриджу
 
+        public ICollection<Operations> Operation { get; set; }
+        public OperationType()
+        {
+            Operation = new List<Operations>();     //список операцій по картриджу
+        }
     }
 }

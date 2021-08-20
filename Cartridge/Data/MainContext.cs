@@ -17,6 +17,8 @@ namespace Cartridge.Data
         public DbSet<Punkt> Punkts { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<Stan> Stans { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Organization> Organizations { get; set; }
 
         public MainContext(DbContextOptions<MainContext> options)
             : base(options)

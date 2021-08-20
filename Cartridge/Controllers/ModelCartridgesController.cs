@@ -11,9 +11,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Cartridge.Controllers
 {
+    [Authorize]
     public class ModelCartridgesController : Controller
     {
         private readonly MainContext _context;

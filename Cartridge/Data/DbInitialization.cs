@@ -36,20 +36,57 @@ namespace Cartridge.Data
 
             if (!context.OperationTypes.Any())
             {
-                OperationType rec1 = new() { Name = "Прийняти картридж", PunktId = 1, FillDefCheck = true, StanId = 4 };
+                OperationType rec1 = new() { Name = "Прийняти картридж", PunktId = 1, FillDefCheck = false, StanId = 4 };
                 context.Add(rec1);
                 context.SaveChanges();
-                OperationType rec2 = new() { Name = "Видати картридж", PunktId = 1, FillDefCheck = true, StanId = 4 };
+                OperationType rec2 = new() { Name = "Видати картридж", FillDefCheck = true, StanId = 1 };
                 context.Add(rec2);
                 context.SaveChanges();
-                OperationType rec3 = new() { Name = "Передати на обслуговування", PunktId = 1, FillDefCheck = true, StanId = 4 };
+                OperationType rec3 = new() { Name = "Передати на обслуговування", PunktId = 2, FillDefCheck = false, StanId = 2 };
                 context.Add(rec3);
                 context.SaveChanges();
                 OperationType rec4 = new() { Name = "Прийняти з обслуговування", PunktId = 1, FillDefCheck = true, StanId = 4 };
                 context.Add(rec4);
                 context.SaveChanges();
-                OperationType rec5 = new() { Name = "Повернення", PunktId = 1, FillDefCheck = true, StanId = 4 };
+                OperationType rec5 = new() { Name = "Повернення", PunktId = 2, FillDefCheck = true, StanId = 3 };
                 context.Add(rec5);
+                context.SaveChanges();
+            }
+
+            if (!context.Users.Any())
+            {
+                User adm = new() { Login = "admin", 
+                                   Password = "123", 
+                                   Name = "Administrator", 
+                                   IsAdmin = "1"
+                };
+                context.Add(adm);
+                context.SaveChanges();
+
+                User user = new() { Login = "user", 
+                                    Password = "1", 
+                                    Name = "User", 
+                                    IsAdmin = "0"
+                };
+                context.Add(user);
+                context.SaveChanges();
+            }
+
+            if (!context.Organizations.Any())
+            {
+                Organization organization = new()
+                {
+                    Name = "Назва організації",
+                    Address = "Адреса організації",
+                    Buh = "Бухгалтер",
+                    Nach = "Начальник",
+                    EDRPOU = "ЄДРПОУ",
+                    IPN = "ІПН",
+                    MFO = "МФО",
+                    RozRah = "Розрахунковий рахунок",
+                    NumberDoc = 1
+                };
+                context.Add(organization);
                 context.SaveChanges();
             }
         }

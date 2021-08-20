@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Cartridge.Data;
 using Cartridge.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Cartridge.Controllers
 {
+    [Authorize]
     public class CartridgesController : Controller
     {
         private readonly MainContext _context;
@@ -19,7 +21,7 @@ namespace Cartridge.Controllers
             _context = context;
         }
 
-        // GET: Cartridges
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var mainContext = _context.Cartridges
@@ -31,7 +33,7 @@ namespace Cartridge.Controllers
             return View(await mainContext.ToListAsync());
         }
 
-        // GET: Cartridges/Details/5
+        [HttpGet]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -55,7 +57,7 @@ namespace Cartridge.Controllers
             return View(cartridges);
         }
 
-        // GET: Cartridges/Create
+        [HttpGet]
         public IActionResult Create()
         {
             ViewData["ModelCartridgeId"] = new SelectList(_context.CartridgesModels, "Id", "Name");
@@ -66,9 +68,6 @@ namespace Cartridge.Controllers
             return View();
         }
 
-        // POST: Cartridges/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Code,DateInsert,DateDel,PunktId,ModelCartridgeId,ModelPrinterId,Status,StanId")] Cartridges cartridges)
@@ -85,7 +84,7 @@ namespace Cartridge.Controllers
             return View(cartridges);
         }
 
-        // GET: Cartridges/Edit/5
+        [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -105,9 +104,6 @@ namespace Cartridge.Controllers
             return View(cartridges);
         }
 
-        // POST: Cartridges/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Code,DateInsert,DateDel,PunktId,ModelCartridgeId,ModelPrinterId,Status,StanId")] Cartridges cartridges)
@@ -144,7 +140,7 @@ namespace Cartridge.Controllers
             return View(cartridges);
         }
 
-        // GET: Cartridges/Delete/5
+        [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -165,7 +161,6 @@ namespace Cartridge.Controllers
             return View(cartridges);
         }
 
-        // POST: Cartridges/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

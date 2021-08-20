@@ -1,0 +1,18 @@
+﻿@model Cartridge.Models.User
+
+@{
+    ViewData["Title"] = "Видалення";
+}
+
+<h3>Видалити користувача @Html.DisplayFor(model => model.Name) ?</h3>
+
+<div>
+    <hr />
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Видалити" 
+               class="btn waves-effect waves-light hor-grd btn-grd-danger " />
+        <a asp-action="Index"
+           class="btn waves-effect waves-light hor-grd btn-grd-info ">До списку користувачів</a>
+    </form>
+</div>
