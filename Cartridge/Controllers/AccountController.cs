@@ -11,7 +11,6 @@ using Cartridge.Models;
 using Cartridge.Data;
 using Cartridge.ViewModel;
 
-
 namespace Cartridge.Controllers
 {
     public class AccountController : Controller
@@ -36,7 +35,7 @@ namespace Cartridge.Controllers
             if (ModelState.IsValid)
             {
                 User user = await db.Users
-                    .FirstOrDefaultAsync(u => u.Login == model.Login && u.Password == model.Password);
+                    .FirstOrDefaultAsync(u => u.Login == model.Login && u.Password == Utils.EncryptDecrypt.Encrypt(model.Password));
 
                 if (user != null)
                 {

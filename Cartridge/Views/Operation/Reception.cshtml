@@ -37,7 +37,7 @@
                 <div class="col-sm-9">
                     @if (Model.operationsType.GetPunkt == null)
                     {
-                    <select class="form-control" id="new_location" name="new_location" >
+                        <select class="form-control" id="new_location" name="new_location" >
                     @foreach (Punkt comp in Model.punkts)
                     {
                         @if (Model.newPunkt != null && Model.newPunkt == comp.Id)
@@ -46,7 +46,7 @@
                         }
                         <option value="@comp.Id">@comp.Name</option>
                     }
-                    </select>
+                        </select>
                     }
                     else
                     {

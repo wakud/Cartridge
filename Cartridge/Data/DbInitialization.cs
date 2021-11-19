@@ -56,7 +56,7 @@ namespace Cartridge.Data
             if (!context.Users.Any())
             {
                 User adm = new() { Login = "admin", 
-                                   Password = "123", 
+                                   Password = "zxpk3j6CfFjNP0OvVff2yw==", 
                                    Name = "Administrator", 
                                    IsAdmin = "1"
                 };
@@ -64,7 +64,7 @@ namespace Cartridge.Data
                 context.SaveChanges();
 
                 User user = new() { Login = "user", 
-                                    Password = "1", 
+                                    Password = "BGBUx4nqgwIWY/sWdqYXVQ==", 
                                     Name = "User", 
                                     IsAdmin = "0"
                 };

@@ -31,6 +31,7 @@ namespace Cartridge
             string connection = Configuration.GetConnectionString("DefaultConnection");
             // створюємо БД
             services.AddDbContext<MainContext>(options => options.UseSqlServer(connection));
+
             // авторизація користувача
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options => //CookieAuthenticationOptions
@@ -69,6 +70,13 @@ namespace Cartridge
             app.UseAuthentication();    // аутентификация
             app.UseAuthorization();     // авторизация
 
+            //Спочатку запускаємо створення БД і наповнюємо її перед сторінкою логіну
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                MainContext context = scope.ServiceProvider.GetRequiredService<MainContext>();
+                DbInitialization.Initial(context);
+            }
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -79,14 +87,6 @@ namespace Cartridge
                     //pattern: "{controller=Home}/{action=Index}/{id?}"         
                     );
             });
-            
-            //Запускаємо створення БД і наповнюємо її
-            using (var scope = app.ApplicationServices.CreateScope())
-            {
-                MainContext context = scope.ServiceProvider.GetRequiredService<MainContext>();
-                DbInitialization.Initial(context);
-            }
-
         }
     }
 }

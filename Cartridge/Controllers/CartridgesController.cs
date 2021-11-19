@@ -70,17 +70,28 @@ namespace Cartridge.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Code,DateInsert,DateDel,PunktId,ModelCartridgeId,ModelPrinterId,Status,StanId")] Cartridges cartridges)
+        public async Task<IActionResult> Create(int Code, [Bind("Id,Code,DateInsert,DateDel,PunktId,ModelCartridgeId,ModelPrinterId,Status,StanId")] Cartridges cartridges)
         {
             if (ModelState.IsValid)
             {
+                if (Code == cartridges.Code)
+                {
+                    ViewBag.error = "BadCode";
+                    ViewData["ModelCartridgeId"] = new SelectList(_context.CartridgesModels, "Id", "Name", cartridges.ModelCartridgeId);
+                    ViewData["PunktId"] = new SelectList(_context.Punkts, "Id", "Name", cartridges.PunktId);
+                    ViewData["StanId"] = new SelectList(_context.Stans, "Id", "Name", cartridges.StanId);
+                    return View(cartridges);
+                }
+
                 _context.Add(cartridges);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["ModelCartridgeId"] = new SelectList(_context.CartridgesModels, "Id", "Id", cartridges.ModelCartridgeId);
             ViewData["PunktId"] = new SelectList(_context.Punkts, "Id", "Id", cartridges.PunktId);
             ViewData["StanId"] = new SelectList(_context.Stans, "Id", "Name", cartridges.StanId);
+            
             return View(cartridges);
         }
 

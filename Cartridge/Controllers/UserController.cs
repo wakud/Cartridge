@@ -40,6 +40,7 @@ namespace Cartridge.Controllers
         {
             try
             {
+                user.Password = Utils.EncryptDecrypt.Encrypt(user.Password);
                 _context.Add(user);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
@@ -63,6 +64,8 @@ namespace Cartridge.Controllers
                 return NotFound();
             }
 
+            string decryptedData = Utils.EncryptDecrypt.Decrypt(user.Password);
+            ViewData["Pass"] = decryptedData;
             return View(user);
         }
 
@@ -79,6 +82,7 @@ namespace Cartridge.Controllers
             {
                 try
                 {
+                    user.Password = Utils.EncryptDecrypt.Encrypt(user.Password);
                     _context.Update(user);
                     _context.SaveChanges();
                     return RedirectToAction(nameof(Index));

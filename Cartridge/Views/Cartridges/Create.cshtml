@@ -4,7 +4,7 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Добавлення картриджу.</h1>
+<h2>Добавлення картриджу.</h2>
 
 <hr />
 <div class="row">
@@ -15,6 +15,15 @@
                 <label asp-for="Code" class="control-label">Код картриджу (штрих-код)</label>
                 <input asp-for="Code" class="form-control" />
                 <span asp-validation-for="Code" class="text-danger"></span>
+                @if (ViewBag.error != null)
+                {
+                    @if (ViewBag.error == "BadCode")
+                    {
+                        <script>
+                            setTimeout(() => alert("Картридж з таким кодом вже є!"), 500);
+                        </script>
+                    }
+                }
             </div>
             <div class="form-group">
                 <label asp-for="DateInsert" class="control-label">Дата введення в експлуатацію</label>
@@ -29,6 +38,7 @@
             <div class="form-group">
                 <label asp-for="PunktId" class="control-label">Де картридж</label>
                 <select asp-for="PunktId" class="form-control" asp-items="ViewBag.PunktId"></select>
+                
             </div>
             <div class="form-group">
                 <label asp-for="ModelCartridgeId" class="control-label">Модель картриджу</label>
@@ -36,7 +46,10 @@
             </div>
             <div class="form-group">
                 <label asp-for="StanId" class="control-label">Стан катриджу</label>
-                <select asp-for="StanId" class="form-control" asp-items="ViewBag.StanId"></select>
+                
+                <select asp-for="StanId" class="form-control" asp-items="ViewBag.StanId">
+                    <option selected="selected" value="4">На складі</option>
+                </select>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
