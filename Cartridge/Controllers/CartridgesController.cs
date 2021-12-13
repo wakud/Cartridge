@@ -24,7 +24,7 @@ namespace Cartridge.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var mainContext = _context.Cartridges
+            IQueryable<Cartridges> mainContext = _context.Cartridges
                 .Include(c => c.GetModelCartridge)
                 .ThenInclude(c => c.Printers)
                 .Include(c => c.GetPunkt)
@@ -74,13 +74,17 @@ namespace Cartridge.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (Code == cartridges.Code)
+                List<Cartridges> cart = _context.Cartridges.ToList();
+                foreach(var item in cart)
                 {
-                    ViewBag.error = "BadCode";
-                    ViewData["ModelCartridgeId"] = new SelectList(_context.CartridgesModels, "Id", "Name", cartridges.ModelCartridgeId);
-                    ViewData["PunktId"] = new SelectList(_context.Punkts, "Id", "Name", cartridges.PunktId);
-                    ViewData["StanId"] = new SelectList(_context.Stans, "Id", "Name", cartridges.StanId);
-                    return View(cartridges);
+                    if (Code == item.Code)
+                    {
+                        ViewBag.error = "BadCode";
+                        ViewData["ModelCartridgeId"] = new SelectList(_context.CartridgesModels, "Id", "Name", cartridges.ModelCartridgeId);
+                        ViewData["PunktId"] = new SelectList(_context.Punkts, "Id", "Name", cartridges.PunktId);
+                        ViewData["StanId"] = new SelectList(_context.Stans, "Id", "Name", cartridges.StanId);
+                        return View(cartridges);
+                    }
                 }
 
                 _context.Add(cartridges);

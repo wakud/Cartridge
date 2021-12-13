@@ -3,15 +3,9 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Cartridge
 {
@@ -24,7 +18,6 @@ namespace Cartridge
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             //отримуємо рядок підключення до БД
@@ -55,27 +48,20 @@ namespace Cartridge
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             //env.EnvironmentName = "Production";   //в стані робочого продукту
-            if (env.IsDevelopment())    //перевіряємо чи в стані розробки
-            {
+            //if (env.IsDevelopment())    //перевіряємо чи в стані розробки
+            //{
                 app.UseDeveloperExceptionPage();    //в стані розробки виводимо помилки
-            }
-            else    //в стані продакшин виводимо помилку 404
-            {
-                app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
-            }
+            //}
+            //else    //в стані продакшин виводимо помилку 404
+            //{
+                //app.UseExceptionHandler("/Home/Error");
+                //app.UseHsts();
+            //}
 
             app.UseStaticFiles();       //чтобы приложение могло бы отдавать статические файлы клиенту
             app.UseRouting();           // добавляем возможности маршрутизации
             app.UseAuthentication();    // аутентификация
             app.UseAuthorization();     // авторизация
-
-            //Спочатку запускаємо створення БД і наповнюємо її перед сторінкою логіну
-            using (var scope = app.ApplicationServices.CreateScope())
-            {
-                MainContext context = scope.ServiceProvider.GetRequiredService<MainContext>();
-                DbInitialization.Initial(context);
-            }
 
             app.UseEndpoints(endpoints =>
             {
@@ -83,10 +69,13 @@ namespace Cartridge
                     name: "default",
                     //при старті проги запускаємо сторінку логіну
                     pattern: "{controller=Account}/{action=Login}/{id?}"
-                    //при старті проги запускаємо основну сторінку
-                    //pattern: "{controller=Home}/{action=Index}/{id?}"         
                     );
             });
+
+            //Спочатку запускаємо створення БД і наповнюємо її перед сторінкою логіну
+            using IServiceScope scope = app.ApplicationServices.CreateScope();
+            MainContext context = scope.ServiceProvider.GetRequiredService<MainContext>();
+            //DbInitialization.Initial(context);
         }
     }
 }

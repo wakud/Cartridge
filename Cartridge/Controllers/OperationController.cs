@@ -73,8 +73,9 @@ namespace Cartridge.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Reception(string? code, int id, int? new_location, string? is_filled,
-            int? location, string aktik)
+            int? location, string aktik, string knopka)
         {
+
             //Формування акту
             if (aktik != null)
             {
@@ -84,9 +85,7 @@ namespace Cartridge.Controllers
                 string fullPath = appEnvir.WebRootPath + filePath + fileName;
                 string fullGenerated = appEnvir.WebRootPath + filePath + generatedPath;
 
-                if (location != 0 || location != null
-                && new_location != 0 || new_location != null
-                && id != 0)
+                if (location != 0 || location != null && new_location != 0 || new_location != null && id != 0)
                 {
                     //робимо список картриджів для акту
                     IEnumerable<Operations> Act = db.Operation
@@ -98,7 +97,7 @@ namespace Cartridge.Controllers
                     Punkt prewPunkt = db.Punkts.FirstOrDefault(p => p.Id == location);
                     Punkt newPunkt = db.Punkts.FirstOrDefault(p => p.Id == new_location);
 
-                    AktModel aktModel = new()
+                    AktModel aktModel = new AktModel()
                     {
                         Operations = Act,
                         prevPunkt = prewPunkt.Name,
@@ -116,12 +115,13 @@ namespace Cartridge.Controllers
                     );
                 }
             }
+
             //Для операцій над картриджами
             if (code == null)
             {
                 return NotFound();
             }
-            
+
             OperationType ot = db.OperationTypes
                 .Include(ot => ot.GetPunkt)
                 .Include(ot => ot.GetStan)
@@ -132,15 +132,16 @@ namespace Cartridge.Controllers
                 .Include(c => c.GetPunkt)
                 .Include(c => c.GetStan)
                 .FirstOrDefaultAsync(c => c.Code == int.Parse(code) && c.DateDel == null);
-
+            
             if (cartridge == null)
             {
                 return NotFound();
             }
 
-            Punkt newLoc = ot.GetPunkt != null ? ot.GetPunkt : db.Punkts.FirstOrDefault(p => p.Id == new_location);
             if (ModelState.IsValid)
             {
+                Console.WriteLine("new_location - " + new_location);
+                Punkt newLoc = ot.GetPunkt != null ? ot.GetPunkt : db.Punkts.FirstOrDefault(p => p.Id == new_location);
                 Operations operation = new Operations
                 {
                     Cartridge = cartridge,
@@ -164,8 +165,7 @@ namespace Cartridge.Controllers
                 .Include(c => c.GetPunkt)
                 .Include(c => c.GetStan)
                 .Where(c => c.DateDel == null && c.PunktId == location);
-
-            IndexViewModel ivm = new() { operationsType = ot, cartridges = cart, 
+            IndexViewModel ivm = new IndexViewModel() { operationsType = ot, cartridges = cart, 
                 punkts = company, selectedLocationId = location, newPunkt = new_location };
 
             ViewData["Added"] = true;

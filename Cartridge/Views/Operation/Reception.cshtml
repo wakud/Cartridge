@@ -18,11 +18,10 @@
                         {
                             @if (Model.selectedLocationId != null && Model.selectedLocationId == comp.Id)
                             {
-                                <option selected value="@comp.Id">@comp.Name</option>
+                                <option id="Loc" selected value="@comp.Id">@comp.Name</option>
                             }
-                            <option value="@comp.Id">@comp.Name</option>
+                            <option id="Loc" value="@comp.Id">@comp.Name</option>
                         }
-
                     </select>
                 </div>
                 <div>
@@ -42,9 +41,9 @@
                     {
                         @if (Model.newPunkt != null && Model.newPunkt == comp.Id)
                         {
-                            <option id="new_location" onchange="changeOption()" selected value="@comp.Id">@comp.Name</option>
+                            <option id="newLoc" selected value="@comp.Id">@comp.Name</option>
                         }
-                        <option value="@comp.Id">@comp.Name</option>
+                        <option id="newLoc" value="@comp.Id">@comp.Name</option>
                     }
                         </select>
                     }
@@ -55,7 +54,7 @@
                     }
                 </div>
                 <div class="form-group form-check">
-                    <input type="checkbox" onchange="changeOption()" class="form-check-input" name="is_filled" />
+                    <input type="checkbox" id="isFilled" onclick="changeOption()" class="form-check-input" name="is_filled" />
                     Заправлений
                 </div>
             </div>
@@ -71,10 +70,14 @@
                     Ідентифікатор картриджа
                 </span>
                 <div class="col-sm-9">
-                    <input name="Code" type="text" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm">
+                    <input id="Code" name="Code" type="text" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm">
                 </div>
                 <div>
-                    <input type="submit" value="@Model.operationsType.Name.Split()[0]" class="btn waves-effect waves-light hor-grd btn-grd-success" />
+                    @using (Html.BeginForm("Reception", "Operation", FormMethod.Post, new { @id = "form1"}))
+                    {
+                        <input type="submit" onclick = "return myFunction();" name="knopka" value="@Model.operationsType.Name.Split()[0]" 
+                            class="btn waves-effect waves-light hor-grd btn-grd-success" />
+                    }
                 </div>
             </div>
         </div>
@@ -120,8 +123,8 @@
                     @if (Model.operationsType.Id == 1)
                     {
                         @using (Html.BeginForm("Reception", "Operation",
-                      new { code = c.Code, location = c.PunktId, id = Model.operationsType.Id },
-                          FormMethod.Post))
+                            new { code = c.Code, location = c.PunktId, id = Model.operationsType.Id },
+                            FormMethod.Post))
                         {
                             <button class="btn waves-effect waves-light hor-grd btn-grd-success">
                                 @Model.operationsType.Name.Split()[0]
@@ -132,48 +135,48 @@
                     else if (Model.operationsType.Id == 2)
                     {
                         @using (Html.BeginForm("Reception", "Operation",
-                      new { code = c.Code, location = c.PunktId, new_location = Model.newPunkt, id = Model.operationsType.Id, is_filled = true },
-                          FormMethod.Post))
+                            new { code = c.Code, location = c.PunktId, new_location = Model.newPunkt, id = Model.operationsType.Id, is_filled = true },
+                            FormMethod.Post))
                         {
                             <button class="btn waves-effect waves-light hor-grd btn-grd-success">
                                 @Model.operationsType.Name.Split()[0]
                             </button>
                         };
-                   }
-                @*На заправку*@
-                else if (Model.operationsType.Id == 3)
-                {
-                    @using (Html.BeginForm("Reception", "Operation",
-                  new { code = c.Code, location = c.PunktId, id = Model.operationsType.Id }, FormMethod.Post))
+                    }
+                    @*На заправку*@
+                    else if (Model.operationsType.Id == 3)
                     {
-                        <button class="btn waves-effect waves-light hor-grd btn-grd-success">
-                            @Model.operationsType.Name.Split()[0]
-                        </button>
-                    };
-               }
-            @*Із заправки*@
-            else if (Model.operationsType.Id == 4)
-            {
-                @using (Html.BeginForm("Reception", "Operation",
-              new { code = c.Code, location = c.PunktId, id = Model.operationsType.Id, is_filled = true },
-                  FormMethod.Post))
-                {
-                    <button class="btn waves-effect waves-light hor-grd btn-grd-success">
-                        @Model.operationsType.Name.Split()[0]
-                    </button>
-                };
-           }
-        @*Повернення*@
-        else if (Model.operationsType.Id == 5)
-        {
-            @using (Html.BeginForm("Reception", "Operation",
-      new { code = c.Code, location = c.PunktId, id = Model.operationsType.Id }, FormMethod.Post))
-            {
-                <button class="btn waves-effect waves-light hor-grd btn-grd-success">
-                    @Model.operationsType.Name.Split()[0]
-                </button>
-            };
-       }
+                        @using (Html.BeginForm("Reception", "Operation",
+                            new { code = c.Code, location = c.PunktId, id = Model.operationsType.Id }, FormMethod.Post))
+                        {
+                            <button class="btn waves-effect waves-light hor-grd btn-grd-success">
+                                @Model.operationsType.Name.Split()[0]
+                            </button>
+                        };
+                    }
+                    @*Із заправки*@
+                    else if (Model.operationsType.Id == 4)
+                    {
+                        @using (Html.BeginForm("Reception", "Operation",
+                            new { code = c.Code, location = c.PunktId, id = Model.operationsType.Id, is_filled = true },
+                            FormMethod.Post))
+                         {
+                            <button class="btn waves-effect waves-light hor-grd btn-grd-success">
+                                @Model.operationsType.Name.Split()[0]
+                            </button>
+                         };
+                    }
+                    @*Повернення*@
+                    else if (Model.operationsType.Id == 5)
+                    {
+                        @using (Html.BeginForm("Reception", "Operation",
+                            new { code = c.Code, location = c.PunktId, id = Model.operationsType.Id }, FormMethod.Post))
+                         {
+                            <button class="btn waves-effect waves-light hor-grd btn-grd-success">
+                                @Model.operationsType.Name.Split()[0]
+                            </button>
+                         };
+                    }
                 </td>
             </tr>
         }
@@ -187,6 +190,28 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
-    </script>
+<script>
+    var newLocal;
+    var Local;
+    var filled;
+    $('#new_location').change(function () {
+        newLocal = $('#new_location').val();
+        Local = $('#location').val();
+        $('form').append('<input name="new_location" value="' + newLocal + '" hidden>');
+        $('form').append('<input name="location" value="' + Local + '" hidden>');
+    });
+    function changeOption() {
+        filled = $('#isFilled').val();
+        $('form').append('<input name="filled" value="' + filled + '" hidden>');
+    };
+    function myFunction() {
+        if (newLocal == 0 || newLocal == null || Local == 0 || Local == null) {
+                alert('Ви не вибрали підрозділ!');
+                return false;
+            }
+            else {
+                form1.submit();
+            }
+        };
+</script>
 }

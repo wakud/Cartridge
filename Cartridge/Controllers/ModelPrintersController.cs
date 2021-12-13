@@ -82,7 +82,7 @@ namespace Cartridge.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    ModelPrinter printer = new()
+                    ModelPrinter printer = new ModelPrinter()
                     {
                         Name = Name,
                         Photo = fullPath

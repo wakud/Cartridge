@@ -10,52 +10,52 @@ namespace Cartridge.Data
         {
             if (!context.Punkts.Any())
             {
-                Punkt sklad = new() { Name = "Склад" };
+                Punkt sklad = new Punkt() { Name = "Склад" };
                 context.Add(sklad);
                 context.SaveChanges();
-                Punkt zapravka = new() { Name = "обслуговування" };
+                Punkt zapravka = new Punkt() { Name = "обслуговування" };
                 context.Add(zapravka);
                 context.SaveChanges();
             }
 
             if (!context.Stans.Any())
             {
-                Stan eks = new() { Name = "В роботі" };
+                Stan eks = new Stan() { Name = "В роботі" };
                 context.Add(eks);
                 context.SaveChanges();
-                Stan serv = new() { Name = "На заправці" };
+                Stan serv = new Stan() { Name = "На заправці" };
                 context.Add(serv);
                 context.SaveChanges();
-                Stan rem = new(){ Name = "На ремонті" };
+                Stan rem = new Stan(){ Name = "На ремонті" };
                 context.Add(rem);
                 context.SaveChanges();
-                Stan skl = new() { Name = "На складі" };
+                Stan skl = new Stan() { Name = "На складі" };
                 context.Add(skl);
                 context.SaveChanges();
             }
 
             if (!context.OperationTypes.Any())
             {
-                OperationType rec1 = new() { Name = "Прийняти картридж", PunktId = 1, FillDefCheck = false, StanId = 4 };
+                OperationType rec1 = new OperationType() { Name = "Прийняти картридж", PunktId = 1, FillDefCheck = false, StanId = 4 };
                 context.Add(rec1);
                 context.SaveChanges();
-                OperationType rec2 = new() { Name = "Видати картридж", FillDefCheck = true, StanId = 1 };
+                OperationType rec2 = new OperationType() { Name = "Видати картридж", FillDefCheck = true, StanId = 1 };
                 context.Add(rec2);
                 context.SaveChanges();
-                OperationType rec3 = new() { Name = "Передати на обслуговування", PunktId = 2, FillDefCheck = false, StanId = 2 };
+                OperationType rec3 = new OperationType() { Name = "Передати на обслуговування", PunktId = 2, FillDefCheck = false, StanId = 2 };
                 context.Add(rec3);
                 context.SaveChanges();
-                OperationType rec4 = new() { Name = "Прийняти з обслуговування", PunktId = 1, FillDefCheck = true, StanId = 4 };
+                OperationType rec4 = new OperationType() { Name = "Прийняти з обслуговування", PunktId = 1, FillDefCheck = true, StanId = 4 };
                 context.Add(rec4);
                 context.SaveChanges();
-                OperationType rec5 = new() { Name = "Повернення", PunktId = 2, FillDefCheck = true, StanId = 3 };
+                OperationType rec5 = new OperationType() { Name = "Повернення", PunktId = 2, FillDefCheck = true, StanId = 3 };
                 context.Add(rec5);
                 context.SaveChanges();
             }
 
             if (!context.Users.Any())
             {
-                User adm = new() { Login = "admin", 
+                User adm = new User() { Login = "admin", 
                                    Password = "zxpk3j6CfFjNP0OvVff2yw==", 
                                    Name = "Administrator", 
                                    IsAdmin = "1"
@@ -63,7 +63,7 @@ namespace Cartridge.Data
                 context.Add(adm);
                 context.SaveChanges();
 
-                User user = new() { Login = "user", 
+                User user = new User() { Login = "user", 
                                     Password = "BGBUx4nqgwIWY/sWdqYXVQ==", 
                                     Name = "User", 
                                     IsAdmin = "0"
@@ -74,7 +74,7 @@ namespace Cartridge.Data
 
             if (!context.Organizations.Any())
             {
-                Organization organization = new()
+                Organization organization = new Organization()
                 {
                     Name = "Назва організації",
                     Address = "Адреса організації",

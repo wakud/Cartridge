@@ -81,7 +81,7 @@ namespace Cartridge.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    ModelCartridge modelCartridge = new()
+                    ModelCartridge modelCartridge = new ModelCartridge()
                     {
                          Name = name,
                          Description = description,

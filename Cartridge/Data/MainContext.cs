@@ -1,9 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Cartridge.Models;
+﻿using Cartridge.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Cartridge.Data
 {
@@ -23,7 +19,7 @@ namespace Cartridge.Data
         public MainContext(DbContextOptions<MainContext> options)
             : base(options)
         {
-            Database.EnsureCreated();     //створення БД без міграції
+            //Database.EnsureCreated();     //створення БД без міграції
         }
     }
 }
